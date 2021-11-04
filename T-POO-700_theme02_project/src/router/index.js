@@ -6,6 +6,7 @@ import WorkingTime from '../components/WorkingTime.vue'
 import WorkingTimes from '../components/WorkingTimes.vue'
 import ClockComponent from '../components/ClockComponent.vue'
 import ChartContainer from '../components/ChartContainer.vue'
+import AdminComponent from '../components/AdminComponent.vue'
 // import CurrentWeather from '../components/CurrentWeather.vue'
 
 Vue.use(VueRouter)
@@ -56,6 +57,11 @@ const routes = [
     path: '/chart',
     name: 'chartManager',
     component: ChartContainer,
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminComponent,
   },
 ]
 
