@@ -4,8 +4,9 @@ defmodule TimeManagerWeb.UserController do
 
   alias TimeManager.Users
   alias TimeManager.Users.User
+  alias TimeManager.Guardian
 
-  action_fallback TimeManagerWeb.FallbackController
+  action_fallback(TimeManagerWeb.FallbackController)
 
   def index(conn, %{"email" => email, "username" => username}) do
     user = Users.get_user_by_parameters!(email, username)
@@ -41,5 +42,29 @@ defmodule TimeManagerWeb.UserController do
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  # ----- REGISTRATION-------
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Users.token_sign_in(email, password) do
+      {:ok, token, _claims} ->
+        conn |> render("jwt.json", jwt: token)
+
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
+  def sign_up(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- Users.create_user(user_params) do
+      conn |> render("show.json", user: user)
+    end
+  end
+
+  @spec sign_out(any, any) :: :ok
+  def sign_out(conn, _params) do
+    conn
+    |> Guardian.Plug.sign_out()
+    |> resp(:ok, "logged out successfully")
   end
 end

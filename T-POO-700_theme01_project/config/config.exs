@@ -29,3 +29,9 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+# Guardian config
+config :timeManager, TimeManager.Guardian,
+       issuer: "timeManager",
+       ttl: { 30, :days },
+       secret_key: "mkykeBPHsJupBGe0OXAjd9CK8frVfl3SxitLa2yZF0zgdfnYfaHqOfzNOVHpeBv/"
