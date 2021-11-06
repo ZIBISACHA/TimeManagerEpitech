@@ -8,6 +8,7 @@ import ClockComponent from '../components/ClockComponent.vue'
 import ChartContainer from '../components/ChartContainer.vue'
 import AdminComponent from '../components/AdminComponent.vue'
 import UserManagementComponent from '../components/UserManagementComponent.vue'
+import Authentication from '../components/Authentication/AuthenticationManager.vue'
 // import CurrentWeather from '../components/CurrentWeather.vue'
 
 Vue.use(VueRouter)
@@ -68,6 +69,11 @@ const routes = [
     path: '/userinfo/:UserID',
     name: 'usermanagement',
     component: UserManagementComponent,
+  },
+  {
+    path: '/auth',
+    name: 'Authentication',
+    component: Authentication,
   },
 ]
 
