@@ -65,7 +65,7 @@
 <script>
 export default {
   setup() {
-
+    this.userID = localStorage('UserID');
   },
   data() {
     return {
