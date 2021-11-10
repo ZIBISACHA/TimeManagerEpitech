@@ -8,6 +8,7 @@ defmodule TimeManager.Teams do
 
   alias TimeManager.Teams.Team
   alias TimeManager.Users.User
+  alias TimeManager.Users_Teams.User_Team
 
   @doc """
   Returns the list of teams.
@@ -108,6 +109,14 @@ defmodule TimeManager.Teams do
   end
 
   def getTeamMembers(teamID) do
-    Repo.all(from(u in User, where: u.teams_id == ^teamID, preload: [:teams]))
+    query = from t in Team,
+      join: u in assoc(t, :users),
+      left_join: uT in User_Team,
+      on: t.id == uT.team_id and t.id == ^teamID,
+      where: t.id == ^teamID,
+      select: %{users: u}
+    Repo.all(query)
+    #Repo.all(from(u in User, where: u.teams_id == ^teamID, preload: [:teams]))
   end
+
 end

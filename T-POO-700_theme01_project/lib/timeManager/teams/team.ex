@@ -5,6 +5,7 @@ defmodule TimeManager.Teams.Team do
   schema "teams" do
     field :name, :string
 
+    many_to_many :users, TimeManager.Users.User, join_through: "user_team"
     timestamps()
   end
 

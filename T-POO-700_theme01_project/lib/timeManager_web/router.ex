@@ -23,6 +23,10 @@ defmodule TimeManagerWeb.Router do
     end
 
     resources "/teams", TeamController, except: [:new, :edit, :show]
+    resources "/userTeams", User_TeamController, except: [:new, :edit]
+
+    get "/userTeams/team/:teamID", User_TeamController, :getUserTeam
+    get "/userTeams/user/:userID", User_TeamController, :getTeams
 
     get "/teams/:userID", TeamController, :getTeamMembers
     get "/team/:id", TeamController, :show

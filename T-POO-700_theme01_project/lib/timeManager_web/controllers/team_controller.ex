@@ -46,6 +46,7 @@ defmodule TimeManagerWeb.TeamController do
     member = Teams.getTeamID(userID)
     team = Teams.get_team!(member.teams_id)
     members = Teams.getTeamMembers(member.teams_id)
+    Logger.info(members)
     render(conn, "member.json", users: members, team: team)
   end
 end

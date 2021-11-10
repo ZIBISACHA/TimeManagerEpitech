@@ -1,3 +1,4 @@
+require Logger
 defmodule TimeManager.Users do
   @moduledoc """
   The Users context.
@@ -7,6 +8,7 @@ defmodule TimeManager.Users do
   alias TimeManager.Repo
 
   alias TimeManager.Users.User
+  alias TimeManager.Roles.Role
 
   @doc """
   Returns the list of users.
@@ -37,6 +39,9 @@ defmodule TimeManager.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def getRole(roleID) do
+    Repo.get_by(Role, id: roleID)
+  end
   @doc """
   Creates a user.
 

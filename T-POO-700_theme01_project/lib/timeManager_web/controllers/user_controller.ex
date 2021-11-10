@@ -1,3 +1,4 @@
+require Logger
 defmodule TimeManagerWeb.UserController do
   use TimeManagerWeb, :controller
 
@@ -22,7 +23,8 @@ defmodule TimeManagerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.json", user: user)
+    role = Users.getRole(user.roles_id)
+    render(conn, "userRole.json", user: user, role: role)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
