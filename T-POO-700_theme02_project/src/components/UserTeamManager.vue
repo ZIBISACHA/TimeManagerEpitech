@@ -42,7 +42,6 @@ export default {
             axios.get('http://localhost:4000/api/userTeams/team/' + this.$route.params.teamID, {'mode': 'cors'})
             .then(response => {
                 this.userList = response.data.users
-                console.log(response.data.users);
             })
             .catch(err => {
                 console.log(err);
@@ -50,16 +49,19 @@ export default {
         },
         async joinToTeam() {
             /* TODO 
-            
                 check si le user est déjà présent dans this.userList
-            
             */
-            if (this.userList.some(users => users.id === localStorage.getItem("userID")))
-            {
-                console.log("Déjà dedans gros !!")
-            } else {
-                console.log("Tu peux y aller mec")
-            }
+            this.userList.forEach(element => {
+                if (element.id == localStorage.getItem("userID")) {
+                    this.$notify({
+                        title: 'Error',
+                        text: "You're already in this Team",
+                        type: 'error',
+                        duration: 1500,
+                    })
+                    throw new Error("Already in this Team :(")
+                }
+            });
             var data = JSON.stringify({
                 "user__team": {
                     "user_id": localStorage.getItem("userID"),
