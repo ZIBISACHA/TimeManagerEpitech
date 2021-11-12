@@ -50,6 +50,7 @@ defmodule TimeManagerWeb.Router do
 
     resources("/workingtimes", WorkingtimeController, only: [:update, :delete])
     get("/workingtimes/:userID", WorkingtimeController, :showByUser)
+    get("/workingtimes/team/:teamID", WorkingtimeController, :showByTeam)
     get("/workingtimes/:userID/:id", WorkingtimeController, :show)
 
     scope "/workingtimes/:userID" do

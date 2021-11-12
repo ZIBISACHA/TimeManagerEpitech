@@ -15,4 +15,8 @@ defmodule TimeManagerWeb.WorkingtimeView do
       start: workingtime.start,
       end: workingtime.end}
   end
+
+  def render("showTeam.json", %{workingtimes: workingtimes}) do
+    %{data: render_many(workingtimes, WorkingtimeView, "workingtime.json")}
+  end
 end

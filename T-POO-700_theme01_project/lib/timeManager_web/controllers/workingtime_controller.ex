@@ -58,4 +58,11 @@ defmodule TimeManagerWeb.WorkingtimeController do
       |> render("show.json", workingtime: workingtime)
     end
   end
+
+  def showByTeam(conn, %{"teamID" => team, "start" => start, "end" => endOfWorktime} = params) do
+    Logger.warn(Timex.parse!(start, "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"))
+    workingtime = Workingtimes.getWorkingtimeByTeam(team, Timex.parse!(start, "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"), Timex.parse!(endOfWorktime, "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"))
+    render(conn, "showTeam.json", workingtimes: workingtime)
+  end
+
 end

@@ -7,6 +7,8 @@ defmodule TimeManager.Workingtimes do
   alias TimeManager.Repo
 
   alias TimeManager.Workingtimes.Workingtime
+  alias TimeManager.Users.User
+  alias TimeManager.Users_Teams.User_Team
 
   @doc """
   Returns the list of workingtimes.
@@ -123,6 +125,17 @@ defmodule TimeManager.Workingtimes do
         where: w.end < ^endOfWorktime,
         preload: [:users]
       )
+    )
+  end
+
+  def getWorkingtimeByTeam(team, start, endOfWorktime) do
+    Repo.all(
+      from w in Workingtime,
+        join: u in User, on: u.id == w.users_id,
+        join: t in User_Team, on: u.id == t.user_id,
+        where: t.team_id == ^team,
+        where: w.start > ^start,
+        where: w.end < ^endOfWorktime
     )
   end
 end
