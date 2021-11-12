@@ -13,6 +13,7 @@
         <v-card class="team_item" v-for="team in existing_teams" :key="team.id">
             <div class="team_name">
                 <v-card-title class="team_name_" v-on:click="redirectTeamInfo(team.id)"> {{ team.name }} </v-card-title>
+                <v-card-subtitle> {{ count_members(team.id) }} members </v-card-subtitle>
             </div>
         </v-card>
     </div>
@@ -30,6 +31,7 @@ export default {
         return {
             teamname: null,
             existing_teams: [],
+            size: null,
         }
     },
     methods: {
@@ -37,7 +39,6 @@ export default {
             axios.get('http://localhost:4000/api/teams', {'mode': 'cors'})
             .then(response => {
                 this.existing_teams = response.data.data
-                console.log(response.data.data);
             })
             .catch(err => {
                 console.log(err);
@@ -67,6 +68,17 @@ export default {
         async redirectTeamInfo(teamID) {
             this.$router.push({path: '/teaminfo/' + teamID});
         },
+        count_members(teamID) {
+            axios.get('http://localhost:4000/api/userTeams/team/' + teamID, {'mode': 'cors'})
+            .then(res => {
+                // console.log( Object.keys(res.data.users).length )
+                console.log(Object.keys(res.data.users).length);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            return "{J'arrive pas a afficher le nombre}";
+        },
     }
 }
 </script>
@@ -94,13 +106,16 @@ export default {
     }
     .teams_list {
         margin: 2.125em;
-        border: solid 1px black;
+        /* border: solid 1px black; */
     }
     .team_name {
         padding: 0.125em;
     }
     .team_name_ {
         justify-content: center;
+    }
+    .team_item {
+        margin: 0.250em;
     }
     .team_item:hover {
         cursor: default;

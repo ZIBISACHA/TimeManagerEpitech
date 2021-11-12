@@ -37,6 +37,8 @@ defmodule TimeManager.Users_Teams do
   """
   def get_user__team!(id), do: Repo.get!(User_Team, id)
 
+  def get_user__team_ByUser(userID), do: Repo.get_by(User_Team, user_id: userID)
+
   @doc """
   Creates a user__team.
 

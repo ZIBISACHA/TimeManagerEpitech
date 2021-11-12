@@ -44,6 +44,14 @@ defmodule TimeManagerWeb.User_TeamController do
     end
   end
 
+  def deleteByUser(conn, %{"userID" => userID}) do
+    user__team = Users_Teams.get_user__team_ByUser(userID)
+
+    with {:ok, %User_Team{}} <- Users_Teams.delete_user__team(user__team) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+
   def getUserTeam(conn, %{"teamID" => teamID}) do
     team = Teams.get_team!(teamID)
     members = Users_Teams.get_membersDetails(team)
