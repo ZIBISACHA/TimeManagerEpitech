@@ -27,7 +27,7 @@ defmodule TimeManagerWeb.Router do
 
     get "/userTeams/team/:teamID", User_TeamController, :getUserTeam
     get "/userTeams/user/:userID", User_TeamController, :getTeams
-    scope "/userTeams/user/:userID" do
+    scope "/userTeams/user/:userID/:teamID" do
       delete "/", User_TeamController, :deleteByUser
     end
 
