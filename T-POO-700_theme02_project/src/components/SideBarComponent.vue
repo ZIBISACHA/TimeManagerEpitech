@@ -16,10 +16,10 @@
               <v-list-item link v-on:click="redirectUserInfo">
                 <v-list-item-content>
                   <v-list-item-title class="text-h6">
-                    Jon Doe
+                    {{ this.username }}
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                    Jon@Doe.fr
+                    {{ this.email }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -63,15 +63,20 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  setup() {
-    this.userID = localStorage('UserID');
+  created() {
+    this.userID = localStorage.getItem('userID');
+    this.getUserInfo();
   },
   data() {
     return {
       errors: [],
       username: null,
       email: null,
+      Role: null,
+      Teams: null,
       userID: null
     }
   },
@@ -82,7 +87,7 @@ export default {
     },
     redirectUserInfo(e) {
       e.preventDefault()
-      this.$router.push("/user/"/*  + userId */)
+      this.$router.push("/user/" + this.userId)
     },
     redirectChartManagement(e) {
       e.preventDefault()
@@ -90,7 +95,16 @@ export default {
     },
     redirectCalendar(e) {
       e.preventDefault()
-      this.$router.push("/user/"/*  + userId */)
+      this.$router.push("/user/" + this.userId)
+    },
+    getUserInfo() {
+      axios.get('http://localhost:4000/api/users/' + this.userID, {'mode': 'cors'})
+        .then(response => {
+            this.userID = response.data.user['id']
+            this.username = response.data.user['username']
+            this.email = response.data.user['email']
+            })
+        .catch(err => {console.error(err)})
     }
   }
 }

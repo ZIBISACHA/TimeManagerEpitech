@@ -54,7 +54,7 @@ export default {
                 "user": {
                     "username": this.username,
                     "email": this.email,
-                    "role": this.role,
+                    "roles_id": this.role,
                     }
                     });
             axios.post('http://localhost:4000/api/users/', data, {headers: {'Content-Type': 'application/json'}})

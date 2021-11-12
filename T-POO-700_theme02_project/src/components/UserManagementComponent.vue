@@ -54,9 +54,6 @@ export default {
             this.userID = response.data.user['id']
             this.username = response.data.user['username']
             this.email = response.data.user['email']
-            // console.log(response.data.user['id']); 
-            // console.log(response.data.user['username']); 
-            // console.log(response.data.user['email']); 
             })
         .catch(err => {console.error(err)})
     },
