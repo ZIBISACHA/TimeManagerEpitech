@@ -98,7 +98,7 @@ export default {
       this.$router.push("/user/" + this.userId)
     },
     getUserInfo() {
-      axios.get('http://localhost:4000/api/users/' + this.userID, {'mode': 'cors'})
+      axios.get('http://localhost:4000/api/users/' + 1, {'mode': 'cors'})
         .then(response => {
             this.userID = response.data.user['id']
             this.username = response.data.user['username']

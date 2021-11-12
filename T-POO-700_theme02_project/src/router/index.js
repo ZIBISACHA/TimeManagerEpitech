@@ -8,6 +8,8 @@ import ClockComponent from '../components/ClockComponent.vue'
 import ChartContainer from '../components/ChartContainer.vue'
 import AdminComponent from '../components/AdminComponent.vue'
 import UserManagementComponent from '../components/UserManagementComponent.vue'
+import TeamManager from '../components/TeamManager.vue'
+import UserTeamManager from '../components/UserTeamManager.vue'
 // import CurrentWeather from '../components/CurrentWeather.vue'
 
 Vue.use(VueRouter)
@@ -68,6 +70,16 @@ const routes = [
     path: '/userinfo/:UserID',
     name: 'usermanagement',
     component: UserManagementComponent,
+  },
+  {
+    path: '/teams',
+    name: 'teams_management',
+    component: TeamManager,
+  },
+  {
+    path: '/teaminfo/:teamID',
+    name: 'teaminfo_management',
+    component: UserTeamManager,
   },
 ]
 

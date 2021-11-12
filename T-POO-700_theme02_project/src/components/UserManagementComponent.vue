@@ -19,11 +19,16 @@
                         <label for="email">Email</label>
                         <input class="input_" type="text" name="email" id="email" v-model="email">
                     </p>
-                    <!-- <p hidden="true">
+                    <p id="roleman">
                         <label for="email">Role</label>
-                        <input type="text" name="role" id="role" v-model="role">
-                    </p> -->
-                    <input type="submit" value="Submit">
+                        <!-- <input type="text" name="role" id="role" v-model="role"> -->
+                        <select name="role" id="role" v-model="role">
+                            <option value="3">Employee</option>
+                            <option value="1">Manager</option>
+                            <option value="2">Admin</option>
+                        </select>
+                    </p>
+                    <input type="submit" value="Submit" id="submit_btn">
             </form>
 
             </div>
@@ -40,31 +45,37 @@ export default {
     components: {
         SideBarComponent,
     },
+    created() {
+        this.handleSelect()
+        axios.get('http://localhost:4000/api/users/' + this.$route.params.UserID, {'mode': 'cors'})
+        .then(response => {
+            this.userID = response.data.user['id']
+            this.username = response.data.user['username']
+            this.email = response.data.user['email']
+            this.role = response.data.role['id']
+            })
+        .catch(err => {console.error(err)})
+    },
     data() {
         return {
+            userID: null,
             email: null,
             username: null,
             role: null,
             teams: null,
         }
     },
-    created() {
-        axios.get('http://localhost:4000/api/users/' + this.$route.params.UserID, {'mode': 'cors'})
-        .then(response => {
-            this.userID = response.data.user['id']
-            this.username = response.data.user['username']
-            this.email = response.data.user['email']
-            })
-        .catch(err => {console.error(err)})
-    },
     methods: {
+        handleSelect() {
+            
+        },
         updateUser(e) {
-            alert("");
             e.preventDefault();
             var data = JSON.stringify({
                     "user": {
                         "username": this.username,
-                        "email": this.email
+                        "email": this.email,
+                        "roles_id": this.role,
                         }
                         });
                 axios.put('http://localhost:4000/api/users/' + this.$route.params.UserID, data, {headers: {'Content-Type': 'application/json'}}, {'mode': 'cors'})
@@ -94,9 +105,28 @@ export default {
         height: 10%; */
         /* text-align: center; */
     }
-    .input_ {
-
+    #role {
+        margin-top: 0.25em;
+        margin-left: 1em;
+        padding: 0.125em 1em;
+        width: 6em;
+        border: solid 1px black;
     }
+    #email {
+        padding: 0.125em 1em;
+        margin-top: 0.25em;
+        margin-left: 1em;
 
-    
+        border: solid 1px black;
+    }
+    #username {
+        padding: 0.125em 1em;
+        margin-top: 0.25em;
+        margin-left: 1em;
+
+        border: solid 1px black;
+    }
+    .submit_btn {
+        border: solid 1px black;
+    }
 </style>
