@@ -19,6 +19,10 @@
             <input type="text" name="email" id="email" v-model="email">
         </p>
         <p>
+            <label for="email">Role</label>
+            <input type="text" name="role" id="role" v-model="role">
+        </p>
+        <p>
             <input type="submit" value="Submit">
         </p>
         </form>
@@ -39,7 +43,8 @@ export default {
             errors: [],
             username: null,
             email: null,
-            userID: null
+            userID: null,
+            role: 1,
             }
     },
     methods: {
@@ -48,7 +53,8 @@ export default {
             var data = JSON.stringify({
                 "user": {
                     "username": this.username,
-                    "email": this.email
+                    "email": this.email,
+                    "role": this.role,
                     }
                     });
             axios.post('http://localhost:4000/api/users/', data, {headers: {'Content-Type': 'application/json'}})
@@ -62,6 +68,11 @@ export default {
                 this.username = response.data.data['username']
                 this.email = response.data.data['email']
                 })
+            .catch(err => {console.error(err)})
+        },
+        async getAllUsers() {
+            axios.get('http://localhost:4000/api/users/', {'mode': 'cors'})
+            .then(response => {return response.data.data})
             .catch(err => {console.error(err)})
         },
         async deleteUser() {

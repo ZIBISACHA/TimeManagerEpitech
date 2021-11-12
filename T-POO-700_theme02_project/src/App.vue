@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/home">Home</router-link> |
+      <router-link to="/admin">Admin</router-link> |
       <router-link :to="{ name: 'userinfo', params: { id: '1'} }">User</router-link> |
       <router-link :to="{ name: 'clockManager', params: { username: '1'} }">Clock</router-link> |
       <router-link :to="{ name: 'workingTime', params: { userID: '1', type: 'creation' }, query: {type: 'creation'}}">Ajouter un temps de travail</router-link> |
@@ -11,6 +12,7 @@
       <router-link :to="{ name: 'chartManager', params: { id: '1' }}">Chart Manager</router-link> 
     </div>
     <router-view/>
+    <notifications position="bottom right"/>
   </div>
 </template>
 

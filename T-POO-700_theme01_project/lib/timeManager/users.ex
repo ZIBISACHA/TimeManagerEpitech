@@ -19,6 +19,11 @@ defmodule TimeManager.Users do
       [%User{}, ...]
 
   """
+
+  def list_users do
+    Repo.all(User)
+  end
+
   def get_user_by_parameters!(email, username) do
     Repo.get_by!(User, [email: email, username: username], preload: [:users])
   end
