@@ -73,20 +73,20 @@ export default {
           console.error("There was an error!", error);
         });
     },
-    getUserDetails: function () {
-      // get token from localstorage
-      let token = localStorage.getItem("user");
-      try {
-        //decode token here and attach to the user object
-        let decoded = VueJwtDecode.decode(token);
-        this.id = decoded.sub;
-        return decoded.sub;
-      } catch (error) {
-        // return error in production env
-        console.log(error, "error from decoding token");
-      }
-    },
   },
+};
+
+export const getUserDetails = function () {
+  // get token from localstorage
+  let token = localStorage.getItem("user");
+  try {
+    //decode token here and attach to the user object
+    let decoded = VueJwtDecode.decode(token);
+    return decoded.sub;
+  } catch (error) {
+    // return error in production env
+    console.log(error, "error from decoding token");
+  }
 };
 </script>
 

@@ -7,7 +7,7 @@ import UserTeamManager from '../components/UserTeamManager.vue'
 import WorkingTime from '../components/WorkingTime.vue'
 import WorkingTimes from '../components/WorkingTimes.vue'
 import ClockComponent from '../components/ClockComponent.vue'
-import ChartContainer from '../components/ChartContainer.vue'
+// import ChartContainer from '../components/ChartContainer.vue'
 import AdminComponent from '../components/AdminComponent.vue'
 import UserManagementComponent from '../components/UserManagementComponent.vue'
 import SignUp from '../components/Authentication/SignUp.vue'
@@ -60,8 +60,8 @@ const routes = [
   },
   {
     path: '/chart',
-    name: 'chartManager',
-    component: ChartContainer,
+    name: 'ManagerCharts',
+    component: ManagerCharts,
   },
   {
     path: '/admin',

@@ -108,7 +108,6 @@ export default {
   created() {
     this.userID = localStorage.getItem("userID");
     this.getUserInfo();
-    
   },
   data() {
     return {
@@ -182,7 +181,7 @@ export default {
       }
       axios
         .get(
-          "http://localhost:4000/api/users/" + this.userID, 
+          "http://localhost:4000/api/users/" + this.userID,
           config
         )
         .then((response) => {
