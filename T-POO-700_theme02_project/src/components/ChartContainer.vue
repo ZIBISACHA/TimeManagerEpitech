@@ -100,5 +100,4 @@ export default {
   .chart {
     display: flex;
   };
-  
 </style>

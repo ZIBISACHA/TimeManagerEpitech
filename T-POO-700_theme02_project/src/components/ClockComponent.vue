@@ -1,7 +1,6 @@
 <template>
-    
-        <v-card elevation="12" max-width="23%">
-            <h4 class="display-3">
+        <v-card elevation="12" id="clock">
+            <span class="display-1">
                 <span>{{dozenHours}}</span>
                 <span>{{hours}}</span>
                 <span>:</span>
@@ -16,10 +15,10 @@
                     icon
                     @click="clock"
                 >
-                    <v-icon size="50" v-if="!clockIn">mdi-play</v-icon>
+                    <v-icon size="40" v-if="!clockIn">mdi-play</v-icon>
                     <v-icon v-else>mdi-pause</v-icon>
                 </v-btn>
-            </h4>  
+            </span>  
         </v-card>
      
 </template>
@@ -43,13 +42,19 @@ export default {
             hours: 0,
    }
  },
+ props: {
+     userID: {
+         type: Number,
+         default: null
+     }
+ },
  methods: {
     clock() {
       if(!this.clockIn) {
         this.clockIn = !this.clockIn
         this.setTime()
         this.startDateTime = new Date();
-        axios.post('http://localhost:4000/api/clocks/'+this.$route.params.username,{
+        axios.post('http://localhost:4000/api/clocks/'+this.userID,{
             clock : {
                 time: this.startDateTime,
                 status: true
@@ -90,7 +95,7 @@ export default {
             dateEnd.setHours(dateEnd.getHours() + hours);
         }
         dateEnd.setHours(dateEnd.getHours() + 1);
-        axios.post('http://localhost:4000/api/clocks/'+this.$route.params.username,{
+        axios.post('http://localhost:4000/api/clocks/'+this.userID,{
             clock : {
                 status: false
             },
@@ -146,13 +151,19 @@ export default {
 </script>
 
 <style scoped>
-button {
+@media (min-width: 960px) {
+ button {
     margin: 1%;
     width: 10%;
-}
-.clock {
+ }
+ .clock {
     background-color: whitesmoke;
     margin: 5%;
     border-radius: 10px;
+ }
+
+ #clock {
+    max-width: 90%
+ }
 }
 </style>

@@ -12,11 +12,6 @@ defmodule TimeManagerWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.json", users: users)
-  end
-
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Users.create_user(user_params) do
       conn
@@ -28,7 +23,7 @@ defmodule TimeManagerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    role = Users.getRole(user.roles_id)
+    role = Users.getRole(user.role_id)
     render(conn, "userRole.json", user: user, role: role)
   end
 

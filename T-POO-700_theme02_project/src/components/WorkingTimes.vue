@@ -1,32 +1,37 @@
 <template>
     <div class="container">
-        <h3 class="p-3 text-center">User {{userID}} Working Times</h3>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Start</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="startTime in startList" :key="startTime.id">
-                    <td></td>
-                    <td>{{startTime}}</td>
-                </tr>
-                <br>
-                <tr>
-                    <th>End</th>
-                </tr>
-                <tr v-for="endTime in endList" :key="endTime.id">
-                    <td></td>
-                    <td>{{endTime}}</td>
-                </tr>
-            </tbody>
-        </table>
-        
+        <v-data-table
+            :headers="headers"
+            :items="wDates"
+            :items-per-page="5"
+            class="elevation-1"
+        >
+            <template v-slot:top>
+                <v-toolbar-title>WORKING TIMES</v-toolbar-title>
+            </template>
+            <template v-slot:item.actions="{ item }">
+                <v-icon
+                small
+                class="mr-2"
+                @click="editItem(item)"
+                >
+                mdi-pencil
+                </v-icon>
+            </template>
+            <template v-slot:no-data>
+                <v-btn
+                color="primary"
+                @click="initialize"
+                >
+                Reset
+                </v-btn>
+            </template>
+        </v-data-table>
     </div>    
 </template>
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import moment from "moment";
 
 export default {
     //props: ['user_id'],
@@ -42,21 +47,41 @@ export default {
             end: String,
             userID: Number,
             startList: [],
-            endList: []
-   }
+            endList: [],
+            headers: [
+                {
+                    text: 'Start Date',
+                    align: 'start',
+                    sortable: false,
+                    value: 'start',
+                },
+                {text: 'End Date', value:'end'},
+                { text: 'Actions', value: 'actions', sortable: false },
+            ],
+            wDates: []
+    }
+ },
+
+ props: {
+     user: {
+         type: Number,
+         default: null
+     }
  },
 
  methods: {
     async getWorkingTimes() {
-    axios.get('http://localhost:4000/api/workingtimes/' + this.$route.params.userID + "?start=" + "1000-01-01 00:00:00" + "&end=" + "4000-01-01 00:00:00", {'mode': 'cors'})
+    axios.get(/*'http://localhost:4000/api/workingtimes/'*/'http://35.246.32.237:4000/api/workingtimes/' + this.user + "?start=" + "1000-01-01 00:00:00" + "&end=" + "4000-01-01 00:00:00", {'mode': 'cors'})
     .then(response => {
-        this.userID = this.$route.params.userID
-        console.log("JSON: ", response.data.data);
-        let wTimesArrayLength = response.data.data.length
-        for (let i = 0; i < wTimesArrayLength; i++) {
-          this.startList.push(response.data.data[i]['start']);
-          this.endList.push(response.data.data[i]['end']);
-        }
+        this.userID = this.user
+        var wTimes = [];
+        response.data.data.forEach(wTime => {
+            wTimes.push ({
+                start: moment(wTime.start).format("YYYY/MM/DD HH:mm:ss"),
+                end: moment(wTime.end).format("YYYY/MM/DD HH:mm:ss"),
+            })
+        });
+        this.wDates = wTimes;
     }).catch(err => {
         console.log("ERREUR:", err);
     })

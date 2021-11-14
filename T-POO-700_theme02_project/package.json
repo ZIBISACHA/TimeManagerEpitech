@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "rmdir C:\\Users\\steph\\Desktop\\EPITECH\\2021-2023\\Projets\\TimeManagerEpitech\\hello\\www /S/Q && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -13,11 +13,11 @@
     "bootstrap-vue": "^2.21.2",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
     "vue-countup": "^0.1.0",
     "vue-ctk-date-time-picker": "^2.5.0",
-    "vue-notification": "^1.3.20",
     "vue-router": "^3.5.3",
     "vuetify": "^2.4.0",
     "weekstart": "^1.1.0"

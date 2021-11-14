@@ -37,11 +37,9 @@ defmodule TimeManager.Users_Teams do
   """
   def get_user__team!(id), do: Repo.get!(User_Team, id)
 
-
   def get_user__team_ByUser(userID,teamID) do
     Repo.one(from uT in User_Team, where: uT.user_id == ^userID and uT.team_id == ^teamID)
   end
-
   @doc """
   Creates a user__team.
 
@@ -93,7 +91,6 @@ defmodule TimeManager.Users_Teams do
   def delete_user__team(%User_Team{} = user__team) do
     Repo.delete(user__team)
   end
-
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user__team changes.
 

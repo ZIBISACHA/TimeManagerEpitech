@@ -1,20 +1,21 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/admin">Admin</router-link> |
-      <router-link :to="{ name: 'userinfo', params: { id: '1'} }">User</router-link> |
-      <router-link :to="{ name: 'clockManager', params: { username: '1'} }">Clock</router-link> |
-      <router-link :to="{ name: 'workingTime', params: { userID: '1', type: 'creation' }, query: {type: 'creation'}}">Ajouter un temps de travail</router-link> |
-      <router-link :to="{ name: 'workingTimeModifier', params: { userID: '1', workingtimeid: '19' }, query: {type: 'del'}}">Supprimer un temps de travail</router-link> |
-      <router-link :to="{ name: 'workingTimeModifier', params: { userID: '1', workingtimeid: '19'}, query: {type: 'update'}}">Modifier un temps de travail</router-link> |
-      <router-link :to="{ name: 'workingTimes', params: { id: '1' }}">Voir les temps de travail</router-link> |
-      <router-link :to="{ name: 'chartManager', params: { id: '1' }}">Chart Manager</router-link> 
+      <home-view />
     </div>
-    <router-view/>
-    <notifications position="bottom right"/>
   </div>
 </template>
+
+<script>
+import HomeView from '../src/views/Home.vue'
+
+export default {
+  name: 'Home',
+  components: {
+    HomeView
+  }
+}
+</script>
 
 <style>
 #app {
@@ -23,10 +24,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
 }
 
 #nav a {

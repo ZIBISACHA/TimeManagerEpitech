@@ -1,11 +1,10 @@
 <template>
   <div class="ma-12 pa-12">
-      <v-card>
+      <v-card v-if="this.$vuetify.breakpoint.width > 960">
           <v-navigation-drawer
           permanent
           expand-on-hover
           app
-
           >
             <v-list>
               <v-list-item class="px-2">
@@ -59,6 +58,41 @@
           </v-list-item>
           </v-navigation-drawer>
       </v-card>
+      <v-card v-else absolute>
+          <v-bottom-navigation
+            fixed
+            :value="value"
+            color="primary"
+          >
+            <v-btn>
+              <span>Home</span>
+        
+              <img class="myIcon" src="../../public/home-icon.png">
+            </v-btn>
+        
+            <v-btn>
+              <span>Chart Management</span>
+        
+              <img class="myIcon" src="../../public/chart-icon.png">
+            </v-btn>
+        
+            <v-btn>
+              <span>Calendar</span>
+        
+              <img class="myIcon" src="../../public/calendar-icon.png">
+            </v-btn>
+            <v-btn>
+              <span>User Info</span>
+        
+              <img class="myIcon" src="../../public/user-icon.png">
+            </v-btn>
+            <v-btn>
+              <span>Team Info</span>
+        
+              <v-icon>mdi-account-group-outline</v-icon>
+            </v-btn>
+          </v-bottom-navigation>
+      </v-card>
   </div>
 </template>
 
@@ -98,7 +132,7 @@ export default {
       this.$router.push("/user/" + this.userId)
     },
     getUserInfo() {
-      axios.get('http://localhost:4000/api/users/' + this.userID, {'mode': 'cors'})
+      axios.get(/*'http://localhost:4000/api/users/'*/'http://35.246.32.237:4000/api/users' + this.userID, {'mode': 'cors'})
         .then(response => {
             this.userID = response.data.user['id']
             this.username = response.data.user['username']
@@ -117,5 +151,9 @@ export default {
   }
   .myAvatar {
     width: 50%;
+  }
+
+  @media (max-width: 960px) {
+   
   }
 </style>
