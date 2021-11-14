@@ -131,11 +131,12 @@ defmodule TimeManager.Workingtimes do
   def getWorkingtimeByTeam(team, start, endOfWorktime) do
     Repo.all(
       from w in Workingtime,
-        join: u in User, on: u.id == w.users_id,
-        join: t in User_Team, on: u.id == t.user_id,
+        left_join: u in User, on: u.id == w.users_id,
+        left_join: t in User_Team, on: u.id == t.user_id,
         where: t.team_id == ^team,
         where: w.start > ^start,
-        where: w.end < ^endOfWorktime
+        where: w.end < ^endOfWorktime,
+        preload: [:users]
     )
   end
 end

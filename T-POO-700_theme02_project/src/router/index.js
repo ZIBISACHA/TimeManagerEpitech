@@ -12,6 +12,7 @@ import AdminComponent from '../components/AdminComponent.vue'
 import UserManagementComponent from '../components/UserManagementComponent.vue'
 import SignUp from '../components/Authentication/SignUp.vue'
 import Login from '../components/Authentication/Login.vue'
+import ManagerCharts from '../components/Charts/ManagerCharts.vue'
 
 Vue.use(VueRouter)
 
@@ -91,6 +92,11 @@ const routes = [
     path: '/teaminfo/:teamID',
     name: 'teaminfo_management',
     component: UserTeamManager,
+  },
+  {
+    path: '/manager-charts',
+    name: 'ManagerCharts',
+    component: ManagerCharts,
   },
 ]
 

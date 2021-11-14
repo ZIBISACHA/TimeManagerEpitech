@@ -121,11 +121,11 @@ Enum.each(["04", "05", "06", "07", "08", "11", "12", "13", "14", "15"], fn x ->
   Repo.insert!(%Workingtime{
     start: Timex.parse!("2021-10-#{x} 08:00:00", "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"),
     end: Timex.parse!("2021-10-#{x} 12:00:00", "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"),
-      users_id: 2
+      users_id: 3
     })
   Repo.insert!(%Workingtime{
     start: Timex.parse!("2021-10-#{x} 14:00:00", "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"),
     end: Timex.parse!("2021-10-#{x} 17:00:00", "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"),
-      users_id: 2
+      users_id: 3
     })
 end)
