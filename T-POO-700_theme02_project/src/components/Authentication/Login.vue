@@ -1,32 +1,37 @@
 <template>
-  <v-card id="login">
-    <v-card-title>Login</v-card-title>
-    <v-card-text>
-      <v-form v-model="isValid">
-        <v-text-field
-          label="Email"
-          type="email"
-          v-model="input.email"
-          required
-          :rules="[(v) => !!v || 'Email is required']"
-        ></v-text-field>
-        <v-text-field
-          label="Password"
-          v-model="input.password"
-          type="password"
-          required
-          :rules="[(v) => !!v || 'Password is required']"
-        ></v-text-field>
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        v-on:click="login({ email: input.email, password: input.password })"
-        :disabled="!isValid"
-        >Login</v-btn
-      >
-    </v-card-actions>
-  </v-card>
+  <div>
+    <v-card id="login">
+      <v-card-title>Login</v-card-title>
+      <v-card-text>
+        <v-form v-model="isValid">
+          <v-text-field
+            label="Email"
+            type="email"
+            v-model="input.email"
+            required
+            :rules="[(v) => !!v || 'Email is required']"
+          ></v-text-field>
+          <v-text-field
+            label="Password"
+            v-model="input.password"
+            type="password"
+            required
+            :rules="[(v) => !!v || 'Password is required']"
+          ></v-text-field>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          v-on:click="login({ email: input.email, password: input.password })"
+          :disabled="!isValid"
+          >Login</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+    <router-link to="/register"
+      >You don't have any account yet? Register here!</router-link
+    >
+  </div>
 </template>
 
 <script>
@@ -88,6 +93,7 @@ export default {
   background-color: #ffffff;
   margin: auto;
   margin-top: 100px;
+  margin-bottom: 20px;
   padding: 20px;
 }
 </style>

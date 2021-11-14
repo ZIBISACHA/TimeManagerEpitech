@@ -1,21 +1,33 @@
 <template>
   <div id="app">
     <div id="nav">
-      <home-view />
+      <router-view>
+        <div v-if="!isAuthenticated">
+          <Login />
+          <router-link to="/register"
+            >You don't have any account yet? Register here!</router-link
+          >
+        </div>
+        <home-view v-if="isAuthenticated" />
+      </router-view>
     </div>
-    <router-view/>
   </div>
 </template>
 
 <script>
-import HomeView from '../src/views/Home.vue'
+import HomeView from "../src/views/Home.vue";
+import Login from "../src/components/Authentication/Login.vue";
 
 export default {
-  name: 'Home',
+  name: "MainHome",
   components: {
-    HomeView
-  }
-}
+    HomeView,
+    Login,
+  },
+  data: () => ({
+    isAuthenticated: false,
+  }),
+};
 </script>
 
 <style>
