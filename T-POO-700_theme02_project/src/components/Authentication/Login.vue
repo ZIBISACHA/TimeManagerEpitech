@@ -54,7 +54,7 @@ export default {
   methods: {
     login: function (data) {
       axios
-        .post("http://localhost:4000/api/users/sign_in", data, { mode: "cors" })
+        .post("http://localhost:4000/auth/sign_in", data, { mode: "cors" })
         .then((response) => {
           if (response.data.jwt) {
             const jwtToString = response.data.jwt;

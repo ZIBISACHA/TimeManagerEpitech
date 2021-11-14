@@ -47,8 +47,8 @@ defmodule TimeManager.MixProject do
       {:cors_plug, "~> 2.0"},
       {:comeonin, "~> 5.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:guardian, "~> 1.0"},
-      {:joken, "~> 2.4"},
+      {:guardian, "~> 2.2.1"},
+      {:joken, "~> 2.4"}
     ]
   end
 

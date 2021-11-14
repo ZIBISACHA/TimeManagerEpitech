@@ -1,27 +1,42 @@
 defmodule TimeManagerWeb.Router do
   use TimeManagerWeb, :router
   alias TimeManager.Guardian
+  alias TimeManager.CheckSession
 
   pipeline :api do
     plug(:accepts, ["json"])
+    # plug(TimeManager.CheckSession)
   end
 
   pipeline :jwt_authenticated do
+    # plug(TimeManager.CheckSession)
     plug(Guardian.AuthPipeline)
   end
 
-  scope "/api", TimeManagerWeb do
-    pipe_through(:api)
+  scope "/auth", TimeManagerWeb do
+    pipe_through :api
 
-    resources("/users", UserController, only: [:index, :show, :create, :update, :delete])
-
-    scope "/users/sign_up" do
+    scope "/sign_up" do
       post("/", UserController, :sign_up)
     end
 
-    scope "/users/sign_in" do
+    scope "/sign_in" do
       post("/", UserController, :sign_in)
     end
+  end
+
+  scope "/api", TimeManagerWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    resources("/users", UserController, only: [:index, :show, :create, :update, :delete])
+
+    # scope "/users/sign_up" do
+    #   post("/", UserController, :sign_up)
+    # end
+
+    # scope "/users/sign_in" do
+    #   post("/", UserController, :sign_in)
+    # end
 
     scope "/users/sign_out" do
       post("/", UserController, :sign_out)
@@ -46,6 +61,7 @@ defmodule TimeManagerWeb.Router do
 
     get "/userTeams/team/:teamID", User_TeamController, :getUserTeam
     get "/userTeams/user/:userID", User_TeamController, :getTeams
+
     scope "/userTeams/user/:userID/:teamID" do
       delete "/", User_TeamController, :deleteByUser
     end

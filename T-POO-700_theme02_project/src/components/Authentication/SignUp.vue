@@ -67,7 +67,7 @@
         >
       </v-card-actions>
     </v-card>
-    <router-link to="/register"
+    <router-link to="/login"
       >You already have an account? Sign in here!</router-link
     >
   </div>
@@ -92,7 +92,7 @@ export default {
     register: function (data) {
       axios
         .post(
-          "http://localhost:4000/api/users/sign_up",
+          "http://localhost:4000/auth/sign_up",
           { user: { ...data } },
           { mode: "cors" }
         )

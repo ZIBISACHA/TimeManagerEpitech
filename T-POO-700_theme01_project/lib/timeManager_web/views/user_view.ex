@@ -12,12 +12,20 @@ defmodule TimeManagerWeb.UserView do
   end
 
   def render("userRole.json", %{user: user, role: role}) do
-    %{user: render_one(user, UserView, "user.json"), role: render_one(role, RoleView, "role.json")}
+    %{
+      user: render_one(user, UserView, "user.json"),
+      role: render_one(role, RoleView, "role.json")
+    }
   end
 
-
   def render("user.json", %{user: user}) do
-    %{id: user.id, username: user.username, email: user.email, password: user.password_hash}
+    %{
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password_hash,
+      role: user.role_id
+    }
   end
 
   def render("jwt.json", %{jwt: jwt}) do
