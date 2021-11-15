@@ -3,6 +3,7 @@
         <h1> <span> {{this.teamname}} </span> Management</h1>
         <v-divider></v-divider>
         <v-btn class="join_btn" v-on:click="joinToTeam">Join team</v-btn>
+        <v-btn class="quit_btn" v-on:click="quitTeam">quit team</v-btn>
         <div class="userlist_div">
             <v-card v-for="user_ in userList" :key="user_.id" class="user_in_team_name" >
                 <v-card-title> {{user_.username}} </v-card-title>
@@ -48,15 +49,12 @@ export default {
             })
         },
         async joinToTeam() {
-            /* TODO 
-                check si le user est déjà présent dans this.userList
-            */
             this.userList.forEach(element => {
                 if (element.id == localStorage.getItem("userID")) {
                     this.$notify({
-                        title: 'Error',
+                        title: 'Warning',
                         text: "You're already in this Team",
-                        type: 'error',
+                        type: 'warn',
                         duration: 1500,
                     })
                     throw new Error("Already in this Team :(")
@@ -77,6 +75,23 @@ export default {
             })
             this.getTeamUsers()
         },
+        async quitTeam() {
+            var userID = localStorage.getItem("userID");
+            await axios.delete("http://localhost:4000/api/userTeams/user/" + userID + "/" + this.$route.params.teamID)
+            .then(response => {
+                console.log(response);
+                this.$notify({
+                    title: 'Success',
+                    text: 'Team Quitted',
+                    type: 'success',
+                    duration: 1000,
+                })
+                this.getTeamUsers()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
     }
 }
 </script>
@@ -87,6 +102,11 @@ export default {
         padding: 0.125em;
     }
     .join_btn {
+        height: 2em;
+        width: 17em;
+        margin: 5em;
+    }
+    .quit_btn {
         height: 2em;
         width: 17em;
         margin: 5em;

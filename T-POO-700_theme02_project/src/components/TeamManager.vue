@@ -14,6 +14,9 @@
             <div class="team_name">
                 <v-card-title class="team_name_" v-on:click="redirectTeamInfo(team.id)"> {{ team.name }} </v-card-title>
                 <v-card-subtitle> {{ count_members(team.id) }} members </v-card-subtitle>
+                <v-btn class="vdelete_btn" elevation="3" icon large v-on:click="deleteTeam(team.id)">
+                    <img class="delete_btn_" src="../../public/delete.png">
+                </v-btn>
             </div>
         </v-card>
     </div>
@@ -71,7 +74,6 @@ export default {
         count_members(teamID) {
             axios.get('http://localhost:4000/api/userTeams/team/' + teamID, {'mode': 'cors'})
             .then(res => {
-                // console.log( Object.keys(res.data.users).length )
                 console.log(Object.keys(res.data.users).length);
             })
             .catch(err => {
@@ -79,6 +81,27 @@ export default {
             })
             return "{J'arrive pas a afficher le nombre}";
         },
+        deleteTeam(teamID) {
+            axios.delete("http://localhost:4000/api/teams/" + teamID, {'mode': 'cors'})
+            .then(res => {
+                console.log(res);
+                this.$notify({
+                    title: 'Success',
+                    text: "Team " + this.teamname + " deleted !",
+                    type: 'success',
+                    duration: 1500,
+                })
+            })
+            .catch(err => {
+                this.$notify({
+                    title: 'Warning',
+                    text: "Unable to delete " + this.teamname + ". Delete all users first !",
+                    type: 'warn',
+                    duration: 2500,
+                })
+                console.log(err);
+            })
+        }
     }
 }
 </script>
@@ -121,5 +144,12 @@ export default {
         cursor: default;
         background-color: whitesmoke;
         transition: All 0.2s ease-in-out;
+    }
+    .delete_btn_ {
+        width: 1.975em;
+        height: 1.975em;
+    }
+    .vdelete_btn {
+        position: right;
     }
 </style>
