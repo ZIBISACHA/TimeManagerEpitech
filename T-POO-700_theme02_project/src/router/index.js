@@ -88,12 +88,7 @@ const routes = [
     component: TeamManager,
   },
   {
-    path: '/teaminfo/:id',
-    name: 'teaminfo_management',
-    component: UserTeamManager,
-  },
-  {
-    path: '/teaminfo/:id',
+    path: '/teaminfo/:teamID',
     name: 'teaminfo_management',
     component: UserTeamManager,
   },

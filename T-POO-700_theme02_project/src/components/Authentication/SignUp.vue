@@ -52,6 +52,11 @@
           ></v-text-field>
         </v-form>
       </v-card-text>
+      <v-select
+          :items="items"
+          label="Role"
+          v-model="input.role"
+        ></v-select>
       <v-card-actions>
         <v-btn
           :disabled="!isValid"
@@ -61,6 +66,7 @@
               username: input.username,
               password: input.password,
               password_confirmation: input.password_confirmation,
+              role: input.role,
             })
           "
           >Register</v-btn
@@ -79,11 +85,13 @@ export default {
   name: "SignUp",
   data() {
     return {
+      items: ['Employee', 'Manager'],
       input: {
         email: null,
         password: null,
         password_confirmation: null,
         username: null,
+        role: null,
       },
       isValid: true,
     };

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+      <notifications position="top right"/>
       <router-view>
         <div v-if="!isAuthenticated">
           <Login />

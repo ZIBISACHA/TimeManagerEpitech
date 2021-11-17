@@ -8,13 +8,20 @@ export default {
   name: "Logout",
   methods: {
     logout: function () {
-      console.log("jwt before logout", localStorage.getItem("user"));
-      localStorage.removeItem("user");
-      localStorage.removeItem("userID");
-      console.log("jwt after logout", localStorage.getItem("user"));
+      const config = {
+        mode: "cors",
+        headers: {
+        "Authorization": "Bearer " + localStorage.user
+        }
+      }
       axios
-        .post("http://localhost:4000/api/users/sign_out", { mode: "cors" })
+        .post("http://localhost:4000/api/users/sign_out", config)
         .then((response) => {
+
+          localStorage.removeItem("user");
+          localStorage.removeItem("userID");
+          localStorage.removeItem("userRole");
+
           console.log("response", response);
         })
         .catch((error) => {

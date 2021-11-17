@@ -21,7 +21,6 @@
                     </p>
                     <p id="roleman">
                         <label for="email">Role</label>
-                        <!-- <input type="text" name="role" id="role" v-model="role"> -->
                         <select name="role" id="role" v-model="role">
                             <option value="3">Employee</option>
                             <option value="1">Manager</option>

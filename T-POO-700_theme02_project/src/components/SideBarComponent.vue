@@ -102,6 +102,7 @@ export default {
   created() {
     this.userID = localStorage.getItem("userID");
     this.getUserInfo();
+    
   },
   data() {
     return {
@@ -146,13 +147,14 @@ export default {
         "Authorization": "Bearer " + localStorage.user
         }
       }
-      console.log("jwt before logout", localStorage.getItem("user"));
-      localStorage.removeItem("user");
-      console.log("jwt after logout", localStorage.getItem("user"));
       axios
         .post("http://localhost:4000/api/users/sign_out", config)
         .then((response) => {
           console.log("response", response);
+          console.log("jwt before logout", localStorage.getItem("user"));
+          localStorage.removeItem("user");
+          localStorage.removeItem("userID");
+          console.log("jwt after logout", localStorage.getItem("user"));
         })
         .catch((error) => {
           this.errorMessage = error.message;

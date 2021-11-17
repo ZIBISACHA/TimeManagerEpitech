@@ -39,7 +39,13 @@ export default {
     },
     methods: {
         async list_teams() {
-            axios.get('http://localhost:4000/api/teams', {'mode': 'cors'})
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user
+                }
+            }
+            axios.get('http://localhost:4000/api/teams', config)
             .then(response => {
                 this.existing_teams = response.data.data
             })
@@ -48,12 +54,19 @@ export default {
             })
         },
         async createTeam() {
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
             var data = JSON.stringify({
                 "team": {
                     "name": this.teamname,
                     }
                     });
-            axios.post('http://localhost:4000/api/teams', data, {headers: {'Content-Type': 'application/json'}})
+            axios.post('http://localhost:4000/api/teams', data, config)
             .then(response => {
                 console.log(response.status)
                 this.$notify({
@@ -72,7 +85,14 @@ export default {
             this.$router.push({path: '/teaminfo/' + teamID});
         },
         count_members(teamID) {
-            axios.get('http://localhost:4000/api/userTeams/team/' + teamID, {'mode': 'cors'})
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
+            axios.get('http://localhost:4000/api/userTeams/team/' + teamID, config)
             .then(res => {
                 console.log(Object.keys(res.data.users).length);
             })
@@ -82,7 +102,14 @@ export default {
             return "{J'arrive pas a afficher le nombre}";
         },
         deleteTeam(teamID) {
-            axios.delete("http://localhost:4000/api/teams/" + teamID, {'mode': 'cors'})
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
+            axios.delete("http://localhost:4000/api/teams/" + teamID, config)
             .then(res => {
                 console.log(res);
                 this.$notify({
@@ -91,6 +118,7 @@ export default {
                     type: 'success',
                     duration: 1500,
                 })
+                this.list_teams();
             })
             .catch(err => {
                 this.$notify({

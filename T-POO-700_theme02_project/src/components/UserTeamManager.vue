@@ -31,7 +31,15 @@ export default {
     },
     methods : {
         async getTeamInfo() {
-            axios.get('http://localhost:4000/api/team/' + this.$route.params.teamID, {'mode': 'cors'})
+            console.log(this.$route.params.teamID);
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
+            axios.get('http://localhost:4000/api/team/' + this.$route.params.teamID, config)
             .then(response => {
                 this.teamname = response.data.data['name']
             })
@@ -40,7 +48,14 @@ export default {
             })
         },
         async getTeamUsers() {
-            axios.get('http://localhost:4000/api/userTeams/team/' + this.$route.params.teamID, {'mode': 'cors'})
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
+            axios.get('http://localhost:4000/api/userTeams/team/' + this.$route.params.teamID, config)
             .then(response => {
                 this.userList = response.data.users
             })
@@ -49,6 +64,13 @@ export default {
             })
         },
         async joinToTeam() {
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
             this.userList.forEach(element => {
                 if (element.id == localStorage.getItem("userID")) {
                     this.$notify({
@@ -66,7 +88,7 @@ export default {
                     "team_id": this.teamID,
                 }
             });
-            await axios.post('http://localhost:4000/api/userTeams/', data, {headers: {'Content-Type': 'application/json'}})
+            await axios.post('http://localhost:4000/api/userTeams/', data, config)
             this.$notify({
                 title: 'Success',
                 text: 'Team Joined',
@@ -76,8 +98,15 @@ export default {
             this.getTeamUsers()
         },
         async quitTeam() {
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
             var userID = localStorage.getItem("userID");
-            await axios.delete("http://localhost:4000/api/userTeams/user/" + userID + "/" + this.$route.params.teamID)
+            await axios.delete("http://localhost:4000/api/userTeams/user/" + userID + "/" + this.$route.params.teamID, config)
             .then(response => {
                 console.log(response);
                 this.$notify({

@@ -63,6 +63,7 @@ export default {
             console.log("user jwt", localStorage.user);
             let decoded = VueJwtDecode.decode(localStorage.user);
             localStorage.setItem("userID", decoded.sub);
+            localStorage.setItem("userRole", decoded.role);
             this.$router.push("/");
           }
           return response.data;
