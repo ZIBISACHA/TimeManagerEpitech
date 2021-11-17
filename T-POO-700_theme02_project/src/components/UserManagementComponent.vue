@@ -77,7 +77,8 @@ export default {
                         "roles_id": this.role,
                         }
                         });
-                axios.put('http://localhost:4000/api/users/' + this.$route.params.UserID, data, {headers: {'Content-Type': 'application/json'}}, {'mode': 'cors'})
+                
+                ('http://localhost:4000/api/users/' + this.$route.params.UserID, data, {headers: {'Content-Type': 'application/json'}}, {'mode': 'cors'})
                 .then(res => {
                     console.log(res)
                     this.$notify({

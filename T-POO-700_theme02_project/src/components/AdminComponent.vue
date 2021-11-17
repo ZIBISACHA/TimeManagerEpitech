@@ -50,7 +50,13 @@ export default {
     },
     methods: {
         async getAllUsers() {
-            axios.get('http://localhost:4000/api/users/', {'mode': 'cors'})
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user
+                }
+            }
+            axios.get('http://localhost:4000/api/users/', config)
             .then(response => {
                 this.users = response.data.data
                 console.log(this.users);

@@ -140,11 +140,17 @@ export default {
       this.$router.push("/teams");
     },
     logout: function () {
+      const config = {
+        mode: "cors",
+        headers: {
+        "Authorization": "Bearer " + localStorage.user
+        }
+      }
       console.log("jwt before logout", localStorage.getItem("user"));
       localStorage.removeItem("user");
       console.log("jwt after logout", localStorage.getItem("user"));
       axios
-        .post("http://localhost:4000/api/users/sign_out", { mode: "cors" })
+        .post("http://localhost:4000/api/users/sign_out", config)
         .then((response) => {
           console.log("response", response);
         })
@@ -154,17 +160,21 @@ export default {
         });
     },
     getUserInfo() {
+      const config = {
+        mode: "cors",
+        headers: {
+        "Authorization": "Bearer " + localStorage.user
+        }
+      }
       axios
         .get(
-          "http://35.246.32.237:4000/api/users/" +
-            this.userID,
-          { mode: "cors" }
+          "http://localhost:4000/api/users/" + this.userID, 
+          config
         )
         .then((response) => {
-          // console.log("RESPONSE :: ", response.data.data.id);
-          this.userID = response.data.data["id"];
-          this.username = response.data.data["username"];
-          this.email = response.data.data["email"];
+          this.userID = response.data["id"];
+          this.username = response.data["username"];
+          this.email = response.data["email"];
         })
         .catch((err) => {
           console.error(err);
