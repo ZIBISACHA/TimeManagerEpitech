@@ -65,9 +65,7 @@ export default {
             {
                 axios.delete('http://localhost:4000/api/users/' + UserID, {'mode': 'cors'})
                 .then(() => {
-                    /* TODO
-                    
-                    */
+                    /* TODO */
                     this.$notify({
                         title: 'Success',
                         text: 'User deleted',

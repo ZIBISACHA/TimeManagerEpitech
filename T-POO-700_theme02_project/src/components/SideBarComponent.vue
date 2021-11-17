@@ -44,7 +44,13 @@
           </v-list-item-icon>
           <v-list-item-title> User Info </v-list-item-title>
         </v-list-item>
-        <v-list-item link v-on:click="redirectLogin">
+        <v-list-item link v-on:click="redirectTeaminfo">
+          <v-list-item-icon>
+            <v-icon>mdi-account-group-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title> Teams Info </v-list-item-title>
+        </v-list-item>
+        <v-list-item link v-on:click="logout">
           <v-list-item-icon>
             <v-icon color='#000000'>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -78,7 +84,6 @@
         </v-btn>
         <v-btn>
           <span>Team Info</span>
-
           <v-icon>mdi-account-group-outline</v-icon>
         </v-btn>
         <v-btn>
@@ -115,7 +120,7 @@ export default {
     },
     redirectUserInfo(e) {
       e.preventDefault();
-      this.$router.push("/user/" + this.userId);
+      // this.$router.push("/user/" + this.userId);
     },
     redirectChartManagement(e) {
       e.preventDefault();
@@ -129,6 +134,10 @@ export default {
       e.preventDefault();
       this.logout();
       this.$router.push("/login");
+    },
+    redirectTeaminfo(e) {
+      e.preventDefault();
+      this.$router.push("/teams");
     },
     logout: function () {
       console.log("jwt before logout", localStorage.getItem("user"));
@@ -147,14 +156,15 @@ export default {
     getUserInfo() {
       axios
         .get(
-          /*'http://localhost:4000/api/users/'*/ "http://35.246.32.237:4000/api/users" +
+          "http://35.246.32.237:4000/api/users/" +
             this.userID,
           { mode: "cors" }
         )
         .then((response) => {
-          this.userID = response.data.user["id"];
-          this.username = response.data.user["username"];
-          this.email = response.data.user["email"];
+          // console.log("RESPONSE :: ", response.data.data.id);
+          this.userID = response.data.data["id"];
+          this.username = response.data.data["username"];
+          this.email = response.data.data["email"];
         })
         .catch((err) => {
           console.error(err);

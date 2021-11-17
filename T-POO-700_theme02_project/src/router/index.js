@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import TeamManager from '../components/TeamManager.vue'
 import UserComponent from '../components/UserComponent.vue'
+import UserTeamManager from '../components/UserTeamManager.vue'
 import WorkingTime from '../components/WorkingTime.vue'
 import WorkingTimes from '../components/WorkingTimes.vue'
 import ClockComponent from '../components/ClockComponent.vue'
@@ -79,6 +81,21 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/teams',
+    name: 'team_management',
+    component: TeamManager,
+  },
+  {
+    path: '/teaminfo/:id',
+    name: 'teaminfo_management',
+    component: UserTeamManager,
+  },
+  {
+    path: '/teaminfo/:id',
+    name: 'teaminfo_management',
+    component: UserTeamManager,
   },
 ]
 

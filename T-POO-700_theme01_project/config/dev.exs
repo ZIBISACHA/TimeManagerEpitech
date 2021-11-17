@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :timeManager, TimeManager.Repo,
   username: "postgres",
-  password: "admin",
+  password: "postgres",
   database: "timemanager_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

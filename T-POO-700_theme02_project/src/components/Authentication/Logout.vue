@@ -10,6 +10,7 @@ export default {
     logout: function () {
       console.log("jwt before logout", localStorage.getItem("user"));
       localStorage.removeItem("user");
+      localStorage.removeItem("userID");
       console.log("jwt after logout", localStorage.getItem("user"));
       axios
         .post("http://localhost:4000/api/users/sign_out", { mode: "cors" })

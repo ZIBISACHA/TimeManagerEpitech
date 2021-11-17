@@ -113,7 +113,7 @@ defmodule TimeManagerWeb.UserController do
     end
   end
 
-  # ----- REGISTRATION-------
+  # ----- REGIST&RATION-------
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case Users.token_sign_in(email, password) do
       {:ok, token, _claims} ->

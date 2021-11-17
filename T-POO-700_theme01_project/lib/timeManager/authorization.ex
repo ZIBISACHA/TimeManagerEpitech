@@ -38,6 +38,8 @@ defmodule TimeManager.Authorization do
     grant(role)
     |> all(User)
     |> all(Workingtime)
+    |> all(Team)
+    |> all(User_Team)
 
     # |> all(Team)
 

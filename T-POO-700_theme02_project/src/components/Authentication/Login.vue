@@ -44,12 +44,13 @@ export default {
       input: {
         email: null,
         password: null,
+        role: null,
       },
       isValid: true,
     };
   },
   mounted() {
-    console.log("id", this.getUserDetails());
+    // console.log("id", this.getUserDetails());
   },
   methods: {
     login: function (data) {
@@ -60,6 +61,8 @@ export default {
             const jwtToString = response.data.jwt;
             localStorage.setItem("user", jwtToString);
             console.log("user jwt", localStorage.user);
+            let decoded = VueJwtDecode.decode(localStorage.user);
+            localStorage.setItem("userID", decoded.sub);
             this.$router.push("/");
           }
           return response.data;
