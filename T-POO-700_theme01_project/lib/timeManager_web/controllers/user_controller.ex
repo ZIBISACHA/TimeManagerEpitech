@@ -10,6 +10,11 @@ defmodule TimeManagerWeb.UserController do
 
   action_fallback(TimeManagerWeb.FallbackController)
 
+  def index(conn, _params) do
+    users = Users.list_users()
+    render(conn, "index.json", users: users)
+  end
+
   def index(conn, %{"email" => email, "username" => username}) do
     user = Guardian.Plug.current_resource(conn)
     role = user.role_id

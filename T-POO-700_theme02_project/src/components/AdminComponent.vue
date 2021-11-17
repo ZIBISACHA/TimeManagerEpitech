@@ -67,9 +67,15 @@ export default {
         },
         async deleteUser(UserID) {
             // alert("You want to delete user with ID " + UserID);
+            const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user
+                }
+            }
             if ( confirm("Do you want to delete user " + UserID + " ?") === true )
             {
-                axios.delete('http://localhost:4000/api/users/' + UserID, {'mode': 'cors'})
+                axios.delete('http://localhost:4000/api/users/' + UserID, config)
                 .then(() => {
                     /* TODO */
                     this.$notify({

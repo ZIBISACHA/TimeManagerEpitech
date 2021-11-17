@@ -21,13 +21,14 @@
                     </p>
                     <p id="roleman">
                         <label for="email">Role</label>
+                        <!-- <input type="text" name="role" id="role" v-model="role"> -->
                         <select name="role" id="role" v-model="role">
                             <option value="3">Employee</option>
                             <option value="1">Manager</option>
                             <option value="2">Admin</option>
                         </select>
                     </p>
-                    <input type="submit" value="Submit" id="submit_btn">
+                    <!-- <input type="submit" value="Submit" id="submit_btn"> -->
             </form>
 
             </div>
@@ -46,12 +47,18 @@ export default {
     },
     created() {
         this.handleSelect()
-        axios.get('http://localhost:4000/api/users/' + this.$route.params.UserID, {'mode': 'cors'})
+        const config = {
+                mode: "cors",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.user
+                }
+        }
+        axios.get('http://localhost:4000/api/users/' + this.$route.params.UserID, config)
         .then(response => {
-            this.userID = response.data.user['id']
-            this.username = response.data.user['username']
-            this.email = response.data.user['email']
-            this.role = response.data.role['id']
+            this.userID = response.data['id']
+            this.username = response.data['username']
+            this.email = response.data['email']
+            this.role = response.data['id']
             })
         .catch(err => {console.error(err)})
     },
@@ -70,6 +77,13 @@ export default {
         },
         updateUser(e) {
             e.preventDefault();
+            const config = {
+                mode: "cors",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.user,
+                    'Content-Type': 'application/json'
+                }
+        }
             var data = JSON.stringify({
                     "user": {
                         "username": this.username,
@@ -77,8 +91,7 @@ export default {
                         "roles_id": this.role,
                         }
                         });
-                
-                ('http://localhost:4000/api/users/' + this.$route.params.UserID, data, {headers: {'Content-Type': 'application/json'}}, {'mode': 'cors'})
+                axios.put('http://localhost:4000/api/users/' + this.$route.params.UserID, data, config)
                 .then(res => {
                     console.log(res)
                     this.$notify({
