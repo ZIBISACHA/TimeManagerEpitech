@@ -50,6 +50,12 @@
           </v-list-item-icon>
           <v-list-item-title> Teams Info </v-list-item-title>
         </v-list-item>
+        <v-list-item link v-on:click="redirectAdmin">
+          <v-list-item-icon>
+            <v-icon>mdi-account-group-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title> Admin </v-list-item-title>
+        </v-list-item>
         <v-list-item link v-on:click="logout">
           <v-list-item-icon>
             <v-icon color='#000000'>mdi-logout</v-icon>
@@ -121,7 +127,7 @@ export default {
     },
     redirectUserInfo(e) {
       e.preventDefault();
-      // this.$router.push("/user/" + this.userId);
+      this.$router.push("/userinfo/" + this.userId);
     },
     redirectChartManagement(e) {
       e.preventDefault();
@@ -130,6 +136,12 @@ export default {
     redirectCalendar(e) {
       e.preventDefault();
       this.$router.push("/user/" + this.userId);
+    },
+    redirectAdmin(e) {
+      e.preventDefault();
+      if (this.Role == 2) {
+        this.$router.push("/admin");
+      }
     },
     redirectLogin(e) {
       e.preventDefault();
@@ -177,6 +189,7 @@ export default {
           this.userID = response.data["id"];
           this.username = response.data["username"];
           this.email = response.data["email"];
+          this.Role = response.data["role"];
         })
         .catch((err) => {
           console.error(err);

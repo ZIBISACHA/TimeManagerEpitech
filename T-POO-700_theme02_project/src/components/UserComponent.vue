@@ -57,7 +57,7 @@ export default {
                     "email": this.email,
                     "roles_id": this.role,
                     }
-                    });
+            });
             axios.post('http://localhost:4000/api/users/', data, {headers: {'Content-Type': 'application/json'}})
             .then(res => {console.log(res);})
             .catch(err => {console.error(err);})

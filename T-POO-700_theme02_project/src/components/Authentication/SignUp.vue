@@ -52,11 +52,15 @@
           ></v-text-field>
         </v-form>
       </v-card-text>
-      <v-select
-          :items="items"
-          label="Role"
-          v-model="input.role"
-        ></v-select>
+      <v-app id="appa">
+        <v-select
+            :items="items"
+            label="Role"
+            item-text="name"
+            item-value="id"
+            v-model="input.role_id"
+          ></v-select>
+      </v-app>
       <v-card-actions>
         <v-btn
           :disabled="!isValid"
@@ -66,7 +70,7 @@
               username: input.username,
               password: input.password,
               password_confirmation: input.password_confirmation,
-              role: input.role,
+              role_id: input.role_id,
             })
           "
           >Register</v-btn
@@ -85,14 +89,14 @@ export default {
   name: "SignUp",
   data() {
     return {
-      items: ['Employee', 'Manager'],
       input: {
         email: null,
         password: null,
         password_confirmation: null,
         username: null,
-        role: null,
+        role_id: null,
       },
+      items: [{id: 1, name: "Employee"}, {id: 3, name: "Manager"}],
       isValid: true,
     };
   },
@@ -101,7 +105,7 @@ export default {
       axios
         .post(
           "http://localhost:4000/auth/sign_up",
-          { user: { ...data } },
+          { user: {...data} },
           { mode: "cors" }
         )
         .then((response) => {
@@ -127,5 +131,9 @@ export default {
   margin-top: 100px;
   margin-bottom: 20px;
   padding: 20px;
+}
+#appa {
+  width: 4em;
+  height: 4em;
 }
 </style>

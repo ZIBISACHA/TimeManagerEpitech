@@ -27,7 +27,7 @@
                             <option value="2">Admin</option>
                         </select>
                     </p>
-                    <!-- <input type="submit" value="Submit" id="submit_btn"> -->
+                    <input type="submit" value="Submit" id="submit_btn">
             </form>
 
             </div>
@@ -113,9 +113,9 @@ export default {
         height: 50em;
     }
     .card_title {
-        /* width: 10%;
-        height: 10%; */
-        /* text-align: center; */
+        width: 10%;
+        height: 10%;
+        text-align: center;
     }
     #role {
         margin-top: 0.25em;
