@@ -66,33 +66,33 @@
     </v-card>
     <v-card v-else absolute>
       <v-bottom-navigation fixed :value="value" color="primary">
-        <v-btn>
+        <v-btn link v-on:click="redirectHome">
           <span>Home</span>
 
           <img class="myIcon" src="../../public/home-icon.png" />
         </v-btn>
 
-        <v-btn>
+        <v-btn link v-on:click="redirectChartManagement">
           <span>Chart Management</span>
 
           <img class="myIcon" src="../../public/chart-icon.png" />
         </v-btn>
 
-        <v-btn>
+        <!-- <v-btn link v-on:click="redirect">
           <span>Calendar</span>
 
           <img class="myIcon" src="../../public/calendar-icon.png" />
-        </v-btn>
-        <v-btn>
+        </v-btn> -->
+        <v-btn link v-on:click="redirectUserInfo">
           <span>User Info</span>
 
           <img class="myIcon" src="../../public/user-icon.png" />
         </v-btn>
-        <v-btn>
+        <v-btn link v-on:click="redirectTeaminfo">
           <span>Team Info</span>
           <v-icon>mdi-account-group-outline</v-icon>
         </v-btn>
-        <v-btn>
+        <v-btn link v-on:click="redirectLogin">
           <span>Logout</span>
           <v-icon>mdi-logout</v-icon>
         </v-btn>
