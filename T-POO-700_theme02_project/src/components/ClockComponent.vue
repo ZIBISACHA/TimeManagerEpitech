@@ -18,9 +18,9 @@
                     <v-icon size="40" v-if="!clockIn">mdi-play</v-icon>
                     <v-icon v-else>mdi-pause</v-icon>
                 </v-btn>
-            </span>  
+            </span>
         </v-card>
-     
+
 </template>
 <script>
 import axios from 'axios'
@@ -116,7 +116,7 @@ export default {
         }).catch(err => {
             console.log(err)
         });
-      } 
+      }
     },
     refresh() {
         this.seconde = 0;

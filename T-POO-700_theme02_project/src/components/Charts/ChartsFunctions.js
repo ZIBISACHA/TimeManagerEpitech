@@ -12,7 +12,15 @@ let currentUserWeeklyChartDataFromJs = [];
 export const getTeamAverageWorkingtime = (isDaily, apiCall, type) => {
   try {
     axios
-      .get(`${apiCall}`, { mode: "cors" })
+      .get(`${apiCall}`, {
+        mode: "cors",
+        headers: {
+          // "x-access-tokens": localStorage.getItem("user"),
+          // "Content-Type": "application/json",
+          // Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("user"),
+        },
+      })
       .then((response) => {
         const workingtimesListByDay = getEveryDayWorkingtimes(
           response?.data?.data
@@ -33,10 +41,9 @@ export const getTeamAverageWorkingtime = (isDaily, apiCall, type) => {
         } else if (type === "otherEmployee") {
           employeeDailyChartDataFromJs.push(averageByDay);
           employeeWeeklyChartDataFromJs.push(averageByWeek);
-        }
-        else {
-         currentUserDailyChartDataFromJs.push(averageByDay);
-         currentUserWeeklyChartDataFromJs.push(averageByWeek);
+        } else {
+          currentUserDailyChartDataFromJs.push(averageByDay);
+          currentUserWeeklyChartDataFromJs.push(averageByWeek);
         }
       })
       .catch((err) => {
@@ -47,12 +54,14 @@ export const getTeamAverageWorkingtime = (isDaily, apiCall, type) => {
   }
   if (type === "team") {
     return isDaily ? chartDataFromJs : weeklyChartDataFromJs;
-  }
-  else if (type === "otherEmployee") {
-    return isDaily ? employeeDailyChartDataFromJs : employeeWeeklyChartDataFromJs;
-  }
-  else {
-    return isDaily ? currentUserDailyChartDataFromJs : currentUserWeeklyChartDataFromJs;
+  } else if (type === "otherEmployee") {
+    return isDaily
+      ? employeeDailyChartDataFromJs
+      : employeeWeeklyChartDataFromJs;
+  } else {
+    return isDaily
+      ? currentUserDailyChartDataFromJs
+      : currentUserWeeklyChartDataFromJs;
   }
 };
 

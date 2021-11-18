@@ -46,7 +46,10 @@ export default {
       },
     },
   }),
-  created() {
+  mounted() {
+    
+    console.log("EmployeeId",this.employeeID);
+    console.log('tes')
     const request = `http://localhost:4000/api/workingtimes/${this.employeeID}?start=${this.startDatetime}&end=${this.endDatetime}`;
     const getEmployeeDailyData = getTeamAverageWorkingtime(true, request, this.type);
     const getEmployeeWeeklyData = getTeamAverageWorkingtime(false, request, this.type);

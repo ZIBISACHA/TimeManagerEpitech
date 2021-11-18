@@ -46,6 +46,7 @@ export default {
     },
   }),
   created() {
+    console.log("teamID" + this.teamID);
     const request = ` http://localhost:4000/api/workingtimes/team/${this.teamID}?start=${this.startDatetime}&end=${this.endDatetime}`;
     const getTeamDailyData = getTeamAverageWorkingtime(true, request, "team");
     const getTeamWeeklyData = getTeamAverageWorkingtime(false, request, "team");

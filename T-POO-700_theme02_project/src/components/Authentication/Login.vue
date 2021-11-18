@@ -79,13 +79,15 @@ export default {
 export const getUserDetails = function () {
   // get token from localstorage
   let token = localStorage.getItem("user");
-  try {
-    //decode token here and attach to the user object
-    let decoded = VueJwtDecode.decode(token);
-    return decoded.sub;
-  } catch (error) {
-    // return error in production env
-    console.log(error, "error from decoding token");
+  if(token) {
+    try {
+      //decode token here and attach to the user object
+      let decoded = VueJwtDecode.decode(token);
+      return decoded.sub;
+    } catch (error) {
+      // return error in production env
+      console.log(error, "error from decoding token");
+    }
   }
 };
 </script>

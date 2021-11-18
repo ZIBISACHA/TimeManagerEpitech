@@ -24,45 +24,45 @@ Repo.insert!(%User{
   username: "John Doe 1",
   email: "john.doe1@gotham.com",
   # Employee
-  roles_id: 3
-  # password_hash: "gotham123",
-  # password_confirmation: "gotham123"
+  role_id: 3,
+  password_hash: "gotham123",
+  password_confirmation: "gotham123"
 })
 
 Repo.insert!(%User{
   username: "John Doe 2",
   email: "john.doe2@gotham.com",
   # Employee
-  roles_id: 3
-  # password_hash: "gotham123",
-  # password_confirmation: "gotham123"
+  role_id: 3,
+  password_hash: "gotham123",
+  password_confirmation: "gotham123"
 })
 
 Repo.insert!(%User{
   username: "John Doe 3",
   email: "john.doe3@gotham.com",
   # Employee
-  roles_id: 3
-  # password_hash: "gotham123",
-  # password_confirmation: "gotham123"
+  role_id: 3,
+  password_hash: "gotham123",
+  password_confirmation: "gotham123"
 })
 
 Repo.insert!(%User{
   username: "Paul Dupont",
   email: "paul.dupont@gotham.com",
   # Manager
-  roles_id: 2
-  # password_hash: "gotham123",
-  # password_confirmation: "gotham123"
+  role_id: 2,
+  password_hash: "gotham123",
+  password_confirmation: "gotham123"
 })
 
 Repo.insert!(%User{
   username: "Admin",
   email: "admin@gotham.com",
   # Admin
-  roles_id: 1
-  # password_hash: "gotham123",
-  # password_confirmation: "gotham123"
+  role_id: 1,
+  password_hash: "gotham123",
+  password_confirmation: "gotham123"
 })
 
 # ------------------------------------------------
