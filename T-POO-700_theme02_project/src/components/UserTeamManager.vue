@@ -1,5 +1,6 @@
 <template>
     <div>
+        <side-bar-component />
         <h1> <span> {{this.teamname}} </span> Management</h1>
         <v-divider></v-divider>
         <v-btn class="join_btn" v-on:click="joinToTeam">Join team</v-btn>

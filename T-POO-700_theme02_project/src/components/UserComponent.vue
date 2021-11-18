@@ -1,5 +1,6 @@
 <template>
     <div>
+        <side-bar-component />
         <form
             id="user_management"
             @submit="createUser"

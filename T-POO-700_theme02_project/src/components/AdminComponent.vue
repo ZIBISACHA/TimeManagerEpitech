@@ -3,7 +3,6 @@
         <side-bar-component />
         <div class="all_user_list">
             <v-card class="user_list_card">
-            <div id="notifikation"></div>
                 <v-list>
                     <v-card class="listed_user" v-for="user in users" :key="user.id">
                         <v-list-item>

@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <h1>Create Your Team</h1>
+<div>
+    <side-bar-component />
     <div>
-      <form action="">
-          <label for="teamname" id="teamname_label">Title</label>
-          <input type="text" id="teamname_input" v-model="teamname">
-          <v-btn id="submit_team" v-on:click="createTeam"> Submit </v-btn>
-      </form>
+        <h1>Create Your Team</h1>
+    <div>
+        <form action="">
+            <label for="teamname" id="teamname_label">Title</label>
+            <input type="text" id="teamname_input" v-model="teamname">
+            <v-btn id="submit_team" v-on:click="createTeam"> Submit </v-btn>
+        </form>
     </div>
     <v-divider class="mx-4"/>
     <div class="teams_list">
@@ -20,11 +22,13 @@
             </div>
         </v-card>
     </div>
-  </div>
+</div>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
+// import SideBarComponent from './SideBarComponent.vue'
 
 export default {
     created() {
