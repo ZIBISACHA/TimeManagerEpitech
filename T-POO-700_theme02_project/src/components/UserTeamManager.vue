@@ -9,14 +9,17 @@
             <v-card v-for="user_ in userList" :key="user_.id" class="user_in_team_name" >
                 <v-card-title> {{user_.username}} </v-card-title>
             </v-card>
-        </div>      
+        </div>
+        <side-bar-component />
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import SideBarComponent from './SideBarComponent.vue';
 
 export default {
+    components: { SideBarComponent },
     setup() {
     },
     created() {

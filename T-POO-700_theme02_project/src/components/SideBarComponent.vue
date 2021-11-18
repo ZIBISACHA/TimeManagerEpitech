@@ -32,12 +32,12 @@
           </v-list-item-icon>
           <v-list-item-title> Chart Management </v-list-item-title>
         </v-list-item>
-        <v-list-item link v-on:click="redirectCalendar">
+        <!-- <v-list-item link v-on:click="redirectCalendar">
           <v-list-item-icon>
             <img class="myIcon" src="../../public/calendar-icon.png" />
           </v-list-item-icon>
           <v-list-item-title> Calendar </v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
         <v-list-item link v-on:click="redirectUserInfo">
           <v-list-item-icon>
             <img class="myIcon" src="../../public/user-icon.png" />
@@ -56,7 +56,7 @@
           </v-list-item-icon>
           <v-list-item-title> Admin </v-list-item-title>
         </v-list-item>
-        <v-list-item link v-on:click="logout">
+        <v-list-item link v-on:click="redirectLogin">
           <v-list-item-icon>
             <v-icon color='#000000'>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -127,16 +127,16 @@ export default {
     },
     redirectUserInfo(e) {
       e.preventDefault();
-      this.$router.push("/userinfo/" + this.userId);
+      this.$router.push({path: '/userinfo/' + localStorage.userID});
     },
     redirectChartManagement(e) {
       e.preventDefault();
       this.$router.push("/chart");
     },
-    redirectCalendar(e) {
-      e.preventDefault();
-      this.$router.push("/user/" + this.userId);
-    },
+    // redirectCalendar(e) {
+    //   e.preventDefault();
+    //   this.$router.push("/user/" + this.userId);
+    // },
     redirectAdmin(e) {
       e.preventDefault();
       if (this.Role == 2) {

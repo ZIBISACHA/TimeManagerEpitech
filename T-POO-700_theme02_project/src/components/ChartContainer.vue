@@ -57,8 +57,15 @@ export default {
   }),
   async mounted () {
     this.loaded = false
+    const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+            }
     try {
-      axios.get('http://localhost:4000/api/clocks/1', {'mode': 'cors'})
+      axios.get('http://localhost:4000/api/clocks/1', config)
       .then(response => {
           var date = [];
           response.data.data.forEach(clock => {

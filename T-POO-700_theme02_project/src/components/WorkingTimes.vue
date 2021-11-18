@@ -70,8 +70,16 @@ export default {
  },
 
  methods: {
+// ANCHOR
     async getWorkingTimes() {
-    axios.get(/*'http://localhost:4000/api/workingtimes/'*/'http://35.246.32.237:4000/api/workingtimes/' + this.user + "?start=" + "1000-01-01 00:00:00" + "&end=" + "4000-01-01 00:00:00", {'mode': 'cors'})
+        const config = {
+                mode: "cors",
+                headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+                }
+        }
+    axios.get(/*'http://localhost:4000/api/workingtimes/'*/'http://35.246.32.237:4000/api/workingtimes/' + this.user + "?start=" + "1000-01-01 00:00:00" + "&end=" + "4000-01-01 00:00:00", config)
     .then(response => {
         this.userID = this.user
         var wTimes = [];

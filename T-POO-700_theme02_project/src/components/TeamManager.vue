@@ -28,9 +28,10 @@
 
 <script>
 import axios from 'axios'
-// import SideBarComponent from './SideBarComponent.vue'
+import SideBarComponent from '../components/SideBarComponent.vue'
 
 export default {
+    components: { SideBarComponent },
     created() {
         this.list_teams();
     },

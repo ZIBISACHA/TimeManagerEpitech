@@ -50,6 +50,13 @@ export default {
  },
  methods: {
     clock() {
+        const config = {
+            mode: "cors",
+            headers: {
+                "Authorization": "Bearer " + localStorage.user,
+                'Content-Type': 'application/json'
+            }
+        }
       if(!this.clockIn) {
         this.clockIn = !this.clockIn
         this.setTime()
@@ -63,7 +70,7 @@ export default {
                 start: this.startDateTime,
                 end: this.startDateTime
             }
-        }, {'mode': 'cors'})
+        }, config)
         .then(response => {
             this.startDateTime = response.data.workingtime.start
             console.log(response)
@@ -102,7 +109,7 @@ export default {
             workingtimes : {
                 end: dateEnd
             }
-        }, {'mode': 'cors'})
+        }, config)
         .then(response => {
             console.log(response)
             this.refresh()
