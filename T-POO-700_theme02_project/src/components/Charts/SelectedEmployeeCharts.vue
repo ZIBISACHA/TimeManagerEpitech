@@ -83,24 +83,40 @@ export default {
     },
   }),
   mounted() {
+    const userRole = localStorage.getItem("userRole");
     const userID = getUserDetails();
-    this.getUserTeam(userID);
+    this.getUserTeam(userID, userRole);
   },
   methods: {
-    async getUserTeam(userID) {
+    async getUserTeam(userID, userRole) {
+      const request =
+        userRole == 2
+          ? "http://localhost:4000/api/users"
+          : "http://localhost:4000/api/teams/" + userID;
+
       axios
-        .get("http://localhost:4000/api/teams/" + userID, {
+        .get(request, {
           mode: "cors",
           headers: {
             Authorization: "Bearer " + localStorage.getItem("user"),
           },
         })
         .then((response) => {
-          for (let y = 0; y < response?.data?.members?.length; y++) {
-            this.items.push({
-              username: response?.data?.members?.[y].username,
-              id: response?.data?.members?.[y].id,
-            });
+          if (userRole == 2) {
+            console.log("main response", response.data.data.length);
+            for (let y = 0; y < response?.data?.data?.length; y++) {
+              this.items.push({
+                username: response?.data?.data?.[y]?.username,
+                id: response?.data?.data?.[y]?.id,
+              });
+            }
+          } else {
+            for (let y = 0; y < response?.data?.members?.length; y++) {
+              this.items.push({
+                username: response?.data?.members?.[y].username,
+                id: response?.data?.members?.[y].id,
+              });
+            }
           }
           this.$forceUpdate();
         })

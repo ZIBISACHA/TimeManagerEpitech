@@ -2,28 +2,34 @@
   <v-app>
     <div class="mainContainer">
       <side-bar-component />
-      <h3>My charts</h3>
-      <current-user-charts
-        :startDatetime="'2021-01-01 00:00:00'"
-        :endDatetime="'2021-12-31 00:00:00'"
-        :type="'currentUser'"
-      />
-      <h3>Team charts</h3>
-      <div class="chart">
-        <team-charts
-          v-if="userTeamID"
-          :teamID="userTeamID"
+      <div v-if="displayMyCharts" :key="currentCount">
+        <h3>My charts</h3>
+        <current-user-charts
           :startDatetime="'2021-01-01 00:00:00'"
           :endDatetime="'2021-12-31 00:00:00'"
+          :type="'currentUser'"
         />
       </div>
-      <h3>Employee charts</h3>
-      <div class="chart">
-        <selected-employee-charts
-          :startDatetime="'2021-01-01 00:00:00'"
-          :endDatetime="'2021-12-31 00:00:00'"
-          :type="'otherEmployee'"
-        />
+      <div v-if="displayTeamCharts">
+        <h3>Team charts</h3>
+        <div class="chart">
+          <team-charts
+            v-if="userTeamID"
+            :teamID="userTeamID"
+            :startDatetime="'2021-01-01 00:00:00'"
+            :endDatetime="'2021-12-31 00:00:00'"
+          />
+        </div>
+      </div>
+      <div v-if="displayEmployeeCharts">
+        <h3>Employee charts</h3>
+        <div class="chart">
+          <selected-employee-charts
+            :startDatetime="'2021-01-01 00:00:00'"
+            :endDatetime="'2021-12-31 00:00:00'"
+            :type="'otherEmployee'"
+          />
+        </div>
       </div>
     </div>
   </v-app>
@@ -46,9 +52,13 @@ export default {
     SelectedEmployeeCharts,
   },
   data: () => ({
+    currentCount: 0,
     currentUserID: null,
     items: [],
     userTeamID: null,
+    displayMyCharts: false,
+    displayTeamCharts: false,
+    displayEmployeeCharts: false,
   }),
   methods: {
     getSelectedEmployee() {
@@ -66,12 +76,6 @@ export default {
           if (response.data.team.id) {
             this.userTeamID = response.data.team.id;
           }
-          for (let y = 0; y < response?.data?.members?.length; y++) {
-            this.items.push({
-              username: response?.data?.members?.[y].username,
-              id: response?.data?.members?.[y].id,
-            });
-          }
         })
         .catch((err) => {
           console.error(err);
@@ -79,11 +83,28 @@ export default {
     },
   },
   mounted() {
+    const userRole = localStorage.getItem("userRole");
+    console.log("if1", userRole);
+    // employee
+    if (userRole == 3) {
+      this.displayMyCharts = true;
+      this.currentCount += 1;
+    }
+    // manager
+    if (userRole == 1) {
+      this.displayMyCharts = true;
+      this.displayTeamCharts = true;
+      this.displayEmployeeCharts = true;
+    }
+    // admin
+    if (userRole == 2) {
+      this.displayEmployeeCharts = true;
+    }
     const id = getUserDetails();
     if (id) {
       console.log(parseInt(id));
       this.currentUserID = parseInt(id);
-      this.getUserTeam(id);
+      this.getUserTeam(id, userRole);
       console.log("user team", this.userTeamID);
     }
     this.$forceUpdate();

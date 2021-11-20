@@ -25,8 +25,8 @@ Repo.insert!(%User{
   email: "john.doe1@gotham.com",
   # Employee
   role_id: 3,
-  password_hash: "gotham123",
-  password_confirmation: "gotham123"
+  password_hash: "$2b$12$asjf72/DPvJesDwh2IZNXusdjjUBX5jOObkLKzlP2ETz9BS0M9x8K",
+  password_confirmation: "testtest3"
 })
 
 Repo.insert!(%User{
@@ -34,8 +34,8 @@ Repo.insert!(%User{
   email: "john.doe2@gotham.com",
   # Employee
   role_id: 3,
-  password_hash: "gotham123",
-  password_confirmation: "gotham123"
+  password_hash: "$2b$12$asjf72/DPvJesDwh2IZNXusdjjUBX5jOObkLKzlP2ETz9BS0M9x8K",
+  password_confirmation: "testtest3"
 })
 
 Repo.insert!(%User{
@@ -43,26 +43,26 @@ Repo.insert!(%User{
   email: "john.doe3@gotham.com",
   # Employee
   role_id: 3,
-  password_hash: "gotham123",
-  password_confirmation: "gotham123"
+  password_hash: "$2b$12$asjf72/DPvJesDwh2IZNXusdjjUBX5jOObkLKzlP2ETz9BS0M9x8K",
+  password_confirmation: "testtest3"
 })
 
 Repo.insert!(%User{
   username: "Paul Dupont",
   email: "paul.dupont@gotham.com",
   # Manager
-  role_id: 2,
-  password_hash: "gotham123",
-  password_confirmation: "gotham123"
+  role_id: 1,
+  password_hash: "$2b$12$asjf72/DPvJesDwh2IZNXusdjjUBX5jOObkLKzlP2ETz9BS0M9x8K123",
+  password_confirmation: "testtest3"
 })
 
 Repo.insert!(%User{
   username: "Admin",
   email: "admin@gotham.com",
   # Admin
-  role_id: 1,
-  password_hash: "gotham123",
-  password_confirmation: "gotham123"
+  role_id: 2,
+  password_hash: "$2b$12$asjf72/DPvJesDwh2IZNXusdjjUBX5jOObkLKzlP2ETz9BS0M9x8K",
+  password_confirmation: "testtest3"
 })
 
 # ------------------------------------------------
