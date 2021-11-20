@@ -3,50 +3,36 @@
     <div class="mainContainer">
       <side-bar-component />
       <h3>My charts</h3>
-      <employee-charts
-        :employeeID="2"
+      <current-user-charts
         :startDatetime="'2021-01-01 00:00:00'"
         :endDatetime="'2021-12-31 00:00:00'"
         :type="'currentUser'"
-        :key="currentUserID"
       />
       <h3>Team charts</h3>
       <div class="chart">
         <team-charts
-          :teamID="1"
+          v-if="userTeamID"
+          :teamID="userTeamID"
           :startDatetime="'2021-01-01 00:00:00'"
           :endDatetime="'2021-12-31 00:00:00'"
         />
       </div>
       <h3>Employee charts</h3>
-
-      <v-container fluid>
-        <v-row align="center">
-          <v-col class="d-flex" cols="12" sm="6">
-            <v-select
-              :items="items"
-              item-text="username"
-              item-value="id"
-              label="Select an employee"
-              solo
-            ></v-select>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <employee-charts
-        :employeeID="selected"
-        :startDatetime="'2021-01-01 00:00:00'"
-        :endDatetime="'2021-12-31 00:00:00'"
-        :type="'otherEmployee'"
-      />
+      <div class="chart">
+        <selected-employee-charts
+          :startDatetime="'2021-01-01 00:00:00'"
+          :endDatetime="'2021-12-31 00:00:00'"
+          :type="'otherEmployee'"
+        />
+      </div>
     </div>
   </v-app>
 </template>
 
 <script>
 import TeamCharts from "./TeamCharts.vue";
-import EmployeeCharts from "./EmployeeCharts.vue";
+import CurrentUserCharts from "./CurrentUserCharts.vue";
+import SelectedEmployeeCharts from "./SelectedEmployeeCharts.vue";
 import SideBarComponent from "../SideBarComponent.vue";
 import { getUserDetails } from "../Authentication/Login.vue";
 import axios from "axios";
@@ -55,25 +41,37 @@ export default {
   name: "ManagerCharts",
   components: {
     TeamCharts,
-    EmployeeCharts,
+    CurrentUserCharts,
     SideBarComponent,
+    SelectedEmployeeCharts,
   },
   data: () => ({
     currentUserID: null,
-    items: [
-      { username: "martin", id: 1 },
-      { username: "pierre", id: 2 },
-      { username: "paul", id: 3 },
-    ],
-    selected: null,
-    userTeam: null,
+    items: [],
+    userTeamID: null,
   }),
   methods: {
+    getSelectedEmployee() {
+      this.$forceUpdate;
+    },
     async getUserTeam(userID) {
       axios
-        .get("http://localhost:4000/api/teams/" + userID, { mode: "cors" })
+        .get("http://localhost:4000/api/teams/" + userID, {
+          mode: "cors",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("user"),
+          },
+        })
         .then((response) => {
-          this.userTeam = response.data.data;
+          if (response.data.team.id) {
+            this.userTeamID = response.data.team.id;
+          }
+          for (let y = 0; y < response?.data?.members?.length; y++) {
+            this.items.push({
+              username: response?.data?.members?.[y].username,
+              id: response?.data?.members?.[y].id,
+            });
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -85,8 +83,9 @@ export default {
     if (id) {
       console.log(parseInt(id));
       this.currentUserID = parseInt(id);
+      this.getUserTeam(id);
+      console.log("user team", this.userTeamID);
     }
-    this.getUserTeam(id);
     this.$forceUpdate();
   },
 };

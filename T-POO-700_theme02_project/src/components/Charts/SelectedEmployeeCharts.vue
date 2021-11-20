@@ -1,20 +1,38 @@
 <template>
-  <div class="chart">
-    <line-chart
-      :chartdata="dailyChartdata"
-      :options="options"
-      :key="dailyCount"
-    />
-    <bar-chart
-      :chartdata="weeklyChartdata"
-      :options="options"
-      :key="weeklyCount"
-    />
-    <doughnut-chart
-      :chartdata="weeklyChartdata"
-      :options="optionsCircle"
-      :key="weeklyCount"
-    />
+  <div>
+    <v-container fluid>
+      <v-row align="center">
+        <v-col class="d-flex" cols="12" sm="6">
+          <v-select
+            v-model="selected"
+            :items="items"
+            item-text="username"
+            item-value="id"
+            label="Select an employee"
+            solo
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
+    <div class="chart">
+      <line-chart
+        v-if="selected"
+        :chartdata="dailyChartdata"
+        :options="options"
+        :key="dailyCount"
+      />
+      <bar-chart
+        v-if="selected"
+        :chartdata="weeklyChartdata"
+        :options="options"
+        :key="weeklyCount"
+      />
+      <doughnut-chart
+        :chartdata="weeklyChartdata"
+        :options="optionsCircle"
+        :key="weeklyCount"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,20 +42,25 @@ import BarChart from "../BarChart.vue";
 import DoughnutChart from "../DoughnutChart.vue";
 import _ from "lodash";
 import { getEveryDayWorkingtimes, getAverageTime } from "./ChartsFunctions.js";
+import { getUserDetails } from "../Authentication/Login.vue";
 import axios from "axios";
+
 export default {
-  name: "TeamCharts",
+  name: "SelectedEmployeeCharts",
   components: { LineChart, BarChart, DoughnutChart },
   props: {
-    teamID: Number,
     startDatetime: String,
     endDatetime: String,
   },
   data: () => ({
-    dailyChartdata: null,
-    weeklyChartdata: null,
+    employeeDailyChartDataFromJs: null,
+    employeeWeeklyChartDataFromJs: null,
+    items: [],
+    selected: null,
     weeklyCount: 0,
     dailyCount: 10,
+    dailyChartdata: null,
+    weeklyChartdata: null,
     optionsCircle: {
       responsive: true,
       maintainAspectRatio: false,
@@ -59,15 +82,38 @@ export default {
       },
     },
   }),
-  created() {
-    this.getAverageWorkingtime();
+  mounted() {
+    const userID = getUserDetails();
+    this.getUserTeam(userID);
   },
   methods: {
+    async getUserTeam(userID) {
+      axios
+        .get("http://localhost:4000/api/teams/" + userID, {
+          mode: "cors",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("user"),
+          },
+        })
+        .then((response) => {
+          for (let y = 0; y < response?.data?.members?.length; y++) {
+            this.items.push({
+              username: response?.data?.members?.[y].username,
+              id: response?.data?.members?.[y].id,
+            });
+          }
+          this.$forceUpdate();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+
     getAverageWorkingtime() {
       try {
         axios
           .get(
-            `http://localhost:4000/api/workingtimes/team/${this.teamID}?start=${this.startDatetime}&end=${this.endDatetime}`,
+            `http://localhost:4000/api/workingtimes/${this.selected}?start=${this.startDatetime}&end=${this.endDatetime}`,
             {
               mode: "cors",
               headers: {
@@ -108,8 +154,7 @@ export default {
               labels: dailyLabels,
               datasets: [
                 {
-                  label:
-                    "Team's daily workingtimes average for an employee (hour)",
+                  label: "Employee's daily workingtimes average (hour)",
                   data: dailyValues,
                   backgroundColor,
                 },
@@ -121,7 +166,7 @@ export default {
               datasets: [
                 {
                   label:
-                    "Team's weekly workingtimes average by month for the whole team",
+                    "Employee's weekly workingtimes average by month (hour)",
                   data: weeklyValues,
                   backgroundColor,
                 },
@@ -139,11 +184,11 @@ export default {
       }
     },
   },
+  watch: {
+    selected: function () {
+      this.getAverageWorkingtime();
+      this.$forceUpdate;
+    },
+  },
 };
 </script>
-<style>
-.chart {
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>

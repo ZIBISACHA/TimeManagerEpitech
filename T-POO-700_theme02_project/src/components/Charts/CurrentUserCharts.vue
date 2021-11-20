@@ -25,19 +25,22 @@ import DoughnutChart from "../DoughnutChart.vue";
 import _ from "lodash";
 import { getEveryDayWorkingtimes, getAverageTime } from "./ChartsFunctions.js";
 import axios from "axios";
+import { getUserDetails } from "../Authentication/Login.vue";
+
 export default {
-  name: "TeamCharts",
+  name: "CurrentUserCharts",
   components: { LineChart, BarChart, DoughnutChart },
   props: {
-    teamID: Number,
+    employeeID: Number,
     startDatetime: String,
     endDatetime: String,
+    type: String,
   },
   data: () => ({
     dailyChartdata: null,
-    weeklyChartdata: null,
     weeklyCount: 0,
     dailyCount: 10,
+    weeklyChartdata: null,
     optionsCircle: {
       responsive: true,
       maintainAspectRatio: false,
@@ -60,14 +63,15 @@ export default {
     },
   }),
   created() {
-    this.getAverageWorkingtime();
+    const userID = getUserDetails();
+    this.getAverageWorkingtime(userID);
   },
   methods: {
-    getAverageWorkingtime() {
+    getAverageWorkingtime(userID) {
       try {
         axios
           .get(
-            `http://localhost:4000/api/workingtimes/team/${this.teamID}?start=${this.startDatetime}&end=${this.endDatetime}`,
+            `http://localhost:4000/api/workingtimes/${userID}?start=${this.startDatetime}&end=${this.endDatetime}`,
             {
               mode: "cors",
               headers: {
@@ -108,8 +112,7 @@ export default {
               labels: dailyLabels,
               datasets: [
                 {
-                  label:
-                    "Team's daily workingtimes average for an employee (hour)",
+                  label: "My daily workingtimes average (hour)",
                   data: dailyValues,
                   backgroundColor,
                 },
@@ -120,8 +123,7 @@ export default {
               labels: weeklyLabels,
               datasets: [
                 {
-                  label:
-                    "Team's weekly workingtimes average by month for the whole team",
+                  label: "Mys weekly workingtimes average by month (hour)",
                   data: weeklyValues,
                   backgroundColor,
                 },
@@ -139,11 +141,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.dailyCount += 1;
+    this.weeklyCount += 1;
+  },
 };
 </script>
-<style>
-.chart {
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>
