@@ -1,0 +1,41 @@
+version : "3.8"
+services:
+    back:
+        container_name: timemanager_back
+        image: timemanager/back
+        build:
+            context: ./T-POO-700_theme01_project
+        environment:
+            PGUSER: postgres
+            PGPASSWORD: postgres
+            PGDATABASE: timemanager_dev
+            PGPORT: 5432
+            PGHOST: db
+        ports: 
+            - "4000:4000"
+        depends_on:
+            - db
+    front:
+        container_name: timemanager_front
+        image: timemanager/front
+        build:
+            context: ./T-POO-700_theme02_project
+        ports:
+            - "8080:8080"
+        depends_on:
+            - back
+        restart: always
+    db:
+        container_name: timemanager_db
+        image: postgres:12.8
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+            - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+            - "dbdata:/var/lib/postgresql/data"
+        restart: always
+volumes:
+    dbdata:
+
