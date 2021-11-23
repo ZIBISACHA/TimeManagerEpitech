@@ -26,12 +26,15 @@ defmodule TimeManager.Authorization do
     grant(role)
     |> update(User)
     |> create(Workingtime)
-    |> create(Team)
-    |> create(User_Team)
-    |> getUserTeam(User_Team)
-    |> getTeams(User_Team)
-    |> getTeamMembers(Team)
-    |> show(Team)
+    |> all(Team)
+    |> all(User_Team)
+
+    # |> create(Team)
+    # |> create(User_Team)
+    # |> getUserTeam(User_Team)
+    # |> getTeams(User_Team)
+    # |> getTeamMembers(Team)
+    # |> show(Team)
   end
 
   def can(2 = role) do
@@ -40,10 +43,8 @@ defmodule TimeManager.Authorization do
     |> all(Workingtime)
     |> all(Team)
     |> all(User_Team)
-
-    # |> all(Team)
-
-    # |> all(User_Team)
+    |> all(Team)
+    |> all(User_Team)
   end
 
   def grant(role), do: %Authorization{role: role}

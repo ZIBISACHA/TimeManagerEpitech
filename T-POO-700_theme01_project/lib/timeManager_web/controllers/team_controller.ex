@@ -1,11 +1,12 @@
 require Logger
+
 defmodule TimeManagerWeb.TeamController do
   use TimeManagerWeb, :controller
-
+  import TimeManager.Authorization
   alias TimeManager.Teams
   alias TimeManager.Teams.Team
 
-  action_fallback TimeManagerWeb.FallbackController
+  action_fallback(TimeManagerWeb.FallbackController)
 
   def index(conn, _params) do
     teams = Teams.list_teams()
@@ -13,17 +14,41 @@ defmodule TimeManagerWeb.TeamController do
   end
 
   def create(conn, %{"team" => team_params}) do
-    with {:ok, %Team{} = team} <- Teams.create_team(team_params) do
+    userTest = Guardian.Plug.current_resource(conn)
+    roleTest = userTest.role_id
+
+    if can(roleTest) |> create?(Team) do
+      with {:ok, %Team{} = team} <- Teams.create_team(team_params) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.team_path(conn, :show, team))
+        |> render("show.json", team: team)
+      end
+    else
       conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.team_path(conn, :show, team))
-      |> render("show.json", team: team)
+      |> Plug.Conn.halt()
     end
   end
 
   def show(conn, %{"id" => id}) do
-    team = Teams.get_team!(id)
-    render(conn, "show.json", team: team)
+    userTest = Guardian.Plug.current_resource(conn)
+    roleTest = userTest.role_id
+
+    cond do
+      roleTest == 1 ->
+        team = Teams.get_team!(id)
+        render(conn, "show.json", team: team)
+
+      roleTest == 2 ->
+        team = Teams.get_team!(id)
+        render(conn, "show.json", team: team)
+
+      roleTest == 3 ->
+        conn |> Plug.Conn.halt()
+
+      true ->
+        conn |> Plug.Conn.halt()
+    end
   end
 
   def update(conn, %{"id" => id, "team" => team_params}) do
@@ -43,9 +68,18 @@ defmodule TimeManagerWeb.TeamController do
   end
 
   def getTeamMembers(conn, %{"userID" => userID}) do
-    member = Teams.getTeamID(userID)
-    team = Teams.get_team!(member.team_id)
-    members = Teams.getTeamMembers(member.team_id)
-    render(conn, "member.json", users: members, team: team)
+    userTest = Guardian.Plug.current_resource(conn)
+    roleTest = userTest.role_id
+
+    if can(roleTest) |> getTeamMembers?(Team) do
+      member = Teams.getTeamID(userID)
+      team = Teams.get_team!(member.team_id)
+      members = Teams.getTeamMembers(member.team_id)
+      # Logger.info(members)
+      render(conn, "member.json", users: members, team: team)
+    else
+      conn
+      |> Plug.Conn.halt()
+    end
   end
 end
